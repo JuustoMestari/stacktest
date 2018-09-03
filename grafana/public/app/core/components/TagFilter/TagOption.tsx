@@ -1,7 +1,7 @@
 import React from 'react';
 import { TagBadge } from './TagBadge';
 
-export interface Props {
+export interface IProps {
   onSelect: any;
   onFocus: any;
   option: any;
@@ -9,7 +9,7 @@ export interface Props {
   className: any;
 }
 
-export class TagOption extends React.Component<Props, any> {
+export class TagOption extends React.Component<IProps, any> {
   constructor(props) {
     super(props);
     this.handleMouseDown = this.handleMouseDown.bind(this);

@@ -6,7 +6,7 @@ class DynamicDirectiveSrv {
   constructor(private $compile, private $rootScope) {}
 
   addDirective(element, name, scope) {
-    const child = angular.element(document.createElement(name));
+    var child = angular.element(document.createElement(name));
     this.$compile(child)(scope);
 
     element.empty();
@@ -36,7 +36,7 @@ class DynamicDirectiveSrv {
   }
 
   create(options) {
-    const directiveDef = {
+    let directiveDef = {
       restrict: 'E',
       scope: options.scope,
       link: (scope, elem, attrs) => {

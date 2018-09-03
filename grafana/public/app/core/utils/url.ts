@@ -3,14 +3,14 @@
  */
 
 export function toUrlParams(a) {
-  const s = [];
-  const rbracket = /\[\]$/;
+  let s = [];
+  let rbracket = /\[\]$/;
 
-  const isArray = function(obj) {
+  let isArray = function(obj) {
     return Object.prototype.toString.call(obj) === '[object Array]';
   };
 
-  const add = function(k, v) {
+  let add = function(k, v) {
     v = typeof v === 'function' ? v() : v === null ? '' : v === undefined ? '' : v;
     if (typeof v !== 'boolean') {
       s[s.length] = encodeURIComponent(k) + '=' + encodeURIComponent(v);
@@ -19,8 +19,8 @@ export function toUrlParams(a) {
     }
   };
 
-  const buildParams = function(prefix, obj) {
-    let i, len, key;
+  let buildParams = function(prefix, obj) {
+    var i, len, key;
 
     if (prefix) {
       if (isArray(obj)) {

@@ -1,6 +1,6 @@
 import coreModule from 'app/core/core_module';
 
-const template = `
+var template = `
 <input type="file" id="dashupload" name="dashupload" class="hide"/>
 <label class="btn btn-success" for="dashupload">
   <i class="fa fa-upload"></i>
@@ -18,10 +18,10 @@ function uploadDashboardDirective(timer, alertSrv, $location) {
     },
     link: function(scope) {
       function file_selected(evt) {
-        const files = evt.target.files; // FileList object
-        const readerOnload = function() {
+        var files = evt.target.files; // FileList object
+        var readerOnload = function() {
           return function(e) {
-            let dash;
+            var dash;
             try {
               dash = JSON.parse(e.target.result);
             } catch (err) {
@@ -36,14 +36,14 @@ function uploadDashboardDirective(timer, alertSrv, $location) {
           };
         };
 
-        for (let i = 0, f; (f = files[i]); i++) {
-          const reader = new FileReader();
+        for (var i = 0, f; (f = files[i]); i++) {
+          var reader = new FileReader();
           reader.onload = readerOnload();
           reader.readAsText(f);
         }
       }
 
-      const wnd: any = window;
+      var wnd: any = window;
       // Check for the various File API support.
       if (wnd.File && wnd.FileReader && wnd.FileList && wnd.Blob) {
         // Something

@@ -12,23 +12,23 @@ export class DashboardExporter {
     // this is pretty hacky and needs to be changed
     dashboard.cleanUpRepeats();
 
-    const saveModel = dashboard.getSaveModelClone();
+    var saveModel = dashboard.getSaveModelClone();
     saveModel.id = null;
 
     // undo repeat cleanup
     dashboard.processRepeats();
 
-    const inputs = [];
-    const requires = {};
-    const datasources = {};
-    const promises = [];
-    const variableLookup: any = {};
+    var inputs = [];
+    var requires = {};
+    var datasources = {};
+    var promises = [];
+    var variableLookup: any = {};
 
-    for (const variable of saveModel.templating.list) {
+    for (let variable of saveModel.templating.list) {
       variableLookup[variable.name] = variable;
     }
 
-    const templateizeDatasourceUsage = obj => {
+    var templateizeDatasourceUsage = obj => {
       // ignore data source properties that contain a variable
       if (obj.datasource && obj.datasource.indexOf('$') === 0) {
         if (variableLookup[obj.datasource.substring(1)]) {
@@ -42,7 +42,7 @@ export class DashboardExporter {
             return;
           }
 
-          const refName = 'DS_' + ds.name.replace(' ', '_').toUpperCase();
+          var refName = 'DS_' + ds.name.replace(' ', '_').toUpperCase();
           datasources[refName] = {
             name: refName,
             label: ds.name,
@@ -69,14 +69,14 @@ export class DashboardExporter {
       }
 
       if (panel.targets) {
-        for (const target of panel.targets) {
+        for (let target of panel.targets) {
           if (target.datasource !== undefined) {
             templateizeDatasourceUsage(target);
           }
         }
       }
 
-      const panelDef = config.panels[panel.type];
+      var panelDef = config.panels[panel.type];
       if (panelDef) {
         requires['panel' + panelDef.id] = {
           type: 'panel',
@@ -88,19 +88,19 @@ export class DashboardExporter {
     };
 
     // check up panel data sources
-    for (const panel of saveModel.panels) {
+    for (let panel of saveModel.panels) {
       processPanel(panel);
 
       // handle collapsed rows
       if (panel.collapsed !== undefined && panel.collapsed === true && panel.panels) {
-        for (const rowPanel of panel.panels) {
+        for (let rowPanel of panel.panels) {
           processPanel(rowPanel);
         }
       }
     }
 
     // templatize template vars
-    for (const variable of saveModel.templating.list) {
+    for (let variable of saveModel.templating.list) {
       if (variable.type === 'query') {
         templateizeDatasourceUsage(variable);
         variable.options = [];
@@ -110,7 +110,7 @@ export class DashboardExporter {
     }
 
     // templatize annotations vars
-    for (const annotationDef of saveModel.annotations.list) {
+    for (let annotationDef of saveModel.annotations.list) {
       templateizeDatasourceUsage(annotationDef);
     }
 
@@ -129,9 +129,9 @@ export class DashboardExporter {
         });
 
         // templatize constants
-        for (const variable of saveModel.templating.list) {
+        for (let variable of saveModel.templating.list) {
           if (variable.type === 'constant') {
-            const refName = 'VAR_' + variable.name.replace(' ', '_').toUpperCase();
+            var refName = 'VAR_' + variable.name.replace(' ', '_').toUpperCase();
             inputs.push({
               name: refName,
               type: 'constant',
@@ -149,7 +149,7 @@ export class DashboardExporter {
         }
 
         // make inputs and requires a top thing
-        const newObj = {};
+        var newObj = {};
         newObj['__inputs'] = inputs;
         newObj['__requires'] = _.sortBy(requires, ['id']);
 

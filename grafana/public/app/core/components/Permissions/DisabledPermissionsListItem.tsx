@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import DescriptionPicker from 'app/core/components/Picker/DescriptionPicker';
 import { permissionOptions } from 'app/stores/PermissionsStore/PermissionsStore';
 
-export interface Props {
+export interface IProps {
   item: any;
 }
 
-export default class DisabledPermissionListItem extends Component<Props, any> {
+export default class DisabledPermissionListItem extends Component<IProps, any> {
   render() {
     const { item } = this.props;
 
@@ -25,7 +25,7 @@ export default class DisabledPermissionListItem extends Component<Props, any> {
           <div className="gf-form">
             <DescriptionPicker
               optionsWithDesc={permissionOptions}
-              onSelected={() => {}}
+              handlePicked={() => {}}
               value={item.permission}
               disabled={true}
               className={'gf-form-input--form-dropdown-right'}

@@ -53,7 +53,7 @@ export class GrafanaApp {
   }
 
   init() {
-    const app = angular.module('grafana', []);
+    var app = angular.module('grafana', []);
 
     moment.locale(config.bootData.user.locale);
 
@@ -77,7 +77,7 @@ export class GrafanaApp {
         '$delegate',
         '$templateCache',
         function($delegate, $templateCache) {
-          const get = $delegate.get;
+          var get = $delegate.get;
           $delegate.get = function(url, config) {
             if (url.match(/\.html$/)) {
               // some template's already exist in the cache
@@ -105,10 +105,10 @@ export class GrafanaApp {
       'react',
     ];
 
-    const moduleTypes = ['controllers', 'directives', 'factories', 'services', 'filters', 'routes'];
+    var module_types = ['controllers', 'directives', 'factories', 'services', 'filters', 'routes'];
 
-    _.each(moduleTypes, type => {
-      const moduleName = 'grafana.' + type;
+    _.each(module_types, type => {
+      var moduleName = 'grafana.' + type;
       this.useModule(angular.module(moduleName, []));
     });
 
@@ -119,7 +119,7 @@ export class GrafanaApp {
     coreModule.config(setupAngularRoutes);
     registerAngularDirectives();
 
-    const preBootRequires = [System.import('app/features/all')];
+    var preBootRequires = [System.import('app/features/all')];
 
     Promise.all(preBootRequires)
       .then(() => {

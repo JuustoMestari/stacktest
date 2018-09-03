@@ -1,14 +1,14 @@
 import React from 'react';
 import tags from 'app/core/utils/tags';
 
-export interface Props {
+export interface IProps {
   label: string;
   removeIcon: boolean;
   count: number;
   onClick: any;
 }
 
-export class TagBadge extends React.Component<Props, any> {
+export class TagBadge extends React.Component<IProps, any> {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);

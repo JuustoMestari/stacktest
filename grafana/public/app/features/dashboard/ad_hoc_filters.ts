@@ -30,7 +30,7 @@ export class AdHocFiltersCtrl {
     if (this.variable.value && !_.isArray(this.variable.value)) {
     }
 
-    for (const tag of this.variable.filters) {
+    for (let tag of this.variable.filters) {
       if (this.segments.length > 0) {
         this.segments.push(this.uiSegmentSrv.newCondition('AND'));
       }
@@ -55,8 +55,8 @@ export class AdHocFiltersCtrl {
     }
 
     return this.datasourceSrv.get(this.variable.datasource).then(ds => {
-      const options: any = {};
-      let promise = null;
+      var options: any = {};
+      var promise = null;
 
       if (segment.type !== 'value') {
         promise = ds.getTagKeys();
@@ -113,9 +113,9 @@ export class AdHocFiltersCtrl {
   }
 
   updateVariableModel() {
-    const filters = [];
-    let filterIndex = -1;
-    let hasFakes = false;
+    var filters = [];
+    var filterIndex = -1;
+    var hasFakes = false;
 
     this.segments.forEach(segment => {
       if (segment.type === 'value' && segment.fake) {
@@ -153,7 +153,7 @@ export class AdHocFiltersCtrl {
   }
 }
 
-const template = `
+var template = `
 <div class="gf-form-inline">
   <div class="gf-form" ng-repeat="segment in ctrl.segments">
     <metric-segment segment="segment" get-options="ctrl.getOptions(segment, $index)"

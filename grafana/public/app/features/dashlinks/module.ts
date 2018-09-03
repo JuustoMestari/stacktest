@@ -19,8 +19,8 @@ function dashLink($compile, $sanitize, linkSrv) {
   return {
     restrict: 'E',
     link: function(scope, elem) {
-      const link = scope.link;
-      let template =
+      var link = scope.link;
+      var template =
         '<div class="gf-form">' +
         '<a class="pointer gf-form-label" data-placement="bottom"' +
         (link.asDropdown ? ' ng-click="fillDropdown(link)" data-toggle="dropdown"' : '') +
@@ -42,7 +42,7 @@ function dashLink($compile, $sanitize, linkSrv) {
       $compile(elem.contents())(scope);
 
       function update() {
-        const linkInfo = linkSrv.getAnchorInfo(link);
+        var linkInfo = linkSrv.getAnchorInfo(link);
 
         const anchor = elem.find('a');
         const span = elem.find('span');
@@ -84,7 +84,7 @@ function dashLink($compile, $sanitize, linkSrv) {
 export class DashLinksContainerCtrl {
   /** @ngInject */
   constructor($scope, $rootScope, $q, backendSrv, dashboardSrv, linkSrv) {
-    const currentDashId = dashboardSrv.getCurrent().id;
+    var currentDashId = dashboardSrv.getCurrent().id;
 
     function buildLinks(linkDef) {
       if (linkDef.type === 'dashboards') {
@@ -128,7 +128,7 @@ export class DashLinksContainerCtrl {
     }
 
     function updateDashLinks() {
-      const promises = _.map($scope.links, buildLinks);
+      var promises = _.map($scope.links, buildLinks);
 
       $q.all(promises).then(function(results) {
         $scope.generatedLinks = _.flatten(results);
@@ -144,8 +144,8 @@ export class DashLinksContainerCtrl {
             if (dash.id !== currentDashId) {
               memo.push({
                 title: dash.title,
-                url: dash.url,
-                target: link.target === '_self' ? '' : link.target,
+                url: 'dashboard/' + dash.uri,
+                target: link.target,
                 icon: 'fa fa-th-large',
                 keepTime: link.keepTime,
                 includeVars: link.includeVars,

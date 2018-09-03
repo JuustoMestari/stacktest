@@ -3,13 +3,13 @@ import _ from 'lodash';
 import $ from 'jquery';
 import 'vendor/spectrum';
 
-export interface Props {
+export interface IProps {
   color: string;
   options: object;
   onColorSelect: (c: string) => void;
 }
 
-export class SpectrumPicker extends React.Component<Props, any> {
+export class SpectrumPicker extends React.Component<IProps, any> {
   elem: any;
   isMoving: boolean;
 
@@ -29,17 +29,14 @@ export class SpectrumPicker extends React.Component<Props, any> {
   }
 
   componentDidMount() {
-    const spectrumOptions = _.assignIn(
-      {
-        flat: true,
-        showAlpha: true,
-        showButtons: false,
-        color: this.props.color,
-        appendTo: this.elem,
-        move: this.onSpectrumMove,
-      },
-      this.props.options
-    );
+    let spectrumOptions = _.assignIn({
+      flat: true,
+      showAlpha: true,
+      showButtons: false,
+      color: this.props.color,
+      appendTo: this.elem,
+      move: this.onSpectrumMove,
+    }, this.props.options);
 
     this.elem.spectrum(spectrumOptions);
     this.elem.spectrum('show');
@@ -67,6 +64,9 @@ export class SpectrumPicker extends React.Component<Props, any> {
   }
 
   render() {
-    return <div className="spectrum-container" ref={this.setComponentElem} />;
+    return (
+      <div className="spectrum-container" ref={this.setComponentElem}></div>
+    );
   }
 }
+

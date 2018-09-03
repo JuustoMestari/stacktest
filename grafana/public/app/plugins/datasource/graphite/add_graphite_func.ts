@@ -16,16 +16,16 @@ export function graphiteAddFunc($compile) {
 
   return {
     link: function($scope, elem) {
-      const ctrl = $scope.ctrl;
+      var ctrl = $scope.ctrl;
 
-      const $input = $(inputTemplate);
-      const $button = $(buttonTemplate);
+      var $input = $(inputTemplate);
+      var $button = $(buttonTemplate);
 
       $input.appendTo(elem);
       $button.appendTo(elem);
 
       ctrl.datasource.getFuncDefs().then(function(funcDefs) {
-        const allFunctions = _.map(funcDefs, 'name').sort();
+        var allFunctions = _.map(funcDefs, 'name').sort();
 
         $scope.functionMenu = createFunctionDropDownMenu(funcDefs);
 
@@ -35,7 +35,7 @@ export function graphiteAddFunc($compile) {
           minLength: 1,
           items: 10,
           updater: function(value) {
-            let funcDef = ctrl.datasource.getFuncDef(value);
+            var funcDef = ctrl.datasource.getFuncDef(value);
             if (!funcDef) {
               // try find close match
               value = value.toLowerCase();
@@ -81,8 +81,8 @@ export function graphiteAddFunc($compile) {
         $compile(elem.contents())($scope);
       });
 
-      let drop;
-      const cleanUpDrop = function() {
+      var drop;
+      var cleanUpDrop = function() {
         if (drop) {
           drop.destroy();
           drop = null;
@@ -90,10 +90,10 @@ export function graphiteAddFunc($compile) {
       };
 
       $(elem)
-        .on('mouseenter', 'ul.dropdown-menu li', () => {
+        .on('mouseenter', 'ul.dropdown-menu li', function() {
           cleanUpDrop();
 
-          let funcDef;
+          var funcDef;
           try {
             funcDef = ctrl.datasource.getFuncDef($('a', this).text());
           } catch (e) {
@@ -101,12 +101,12 @@ export function graphiteAddFunc($compile) {
           }
 
           if (funcDef && funcDef.description) {
-            let shortDesc = funcDef.description;
+            var shortDesc = funcDef.description;
             if (shortDesc.length > 500) {
               shortDesc = shortDesc.substring(0, 497) + '...';
             }
 
-            const contentElement = document.createElement('div');
+            var contentElement = document.createElement('div');
             contentElement.innerHTML = '<h4>' + funcDef.name + '</h4>' + rst2html(shortDesc);
 
             drop = new Drop({
@@ -133,7 +133,7 @@ export function graphiteAddFunc($compile) {
 angular.module('grafana.directives').directive('graphiteAddFunc', graphiteAddFunc);
 
 function createFunctionDropDownMenu(funcDefs) {
-  const categories = {};
+  var categories = {};
 
   _.forEach(funcDefs, function(funcDef) {
     if (!funcDef.category) {

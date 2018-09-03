@@ -1,19 +1,12 @@
 import _ from 'lodash';
 
-export interface BuildInfo {
-  version: string;
-  commit: string;
-  isEnterprise: boolean;
-  env: string;
-}
-
-export class Settings {
+class Settings {
   datasources: any;
   panels: any;
   appSubUrl: string;
-  windowTitlePrefix: string;
-  buildInfo: BuildInfo;
-  newPanelTitle: string;
+  window_title_prefix: string;
+  buildInfo: any;
+  new_panel_title: string;
   bootData: any;
   externalUserMngLinkUrl: string;
   externalUserMngLinkName: string;
@@ -31,7 +24,7 @@ export class Settings {
   loginError: any;
 
   constructor(options) {
-    const defaults = {
+    var defaults = {
       datasources: {},
       window_title_prefix: 'Grafana - ',
       panels: {},
@@ -39,20 +32,13 @@ export class Settings {
       playlist_timespan: '1m',
       unsaved_changes_warning: true,
       appSubUrl: '',
-      buildInfo: {
-        version: 'v1.0',
-        commit: '1',
-        env: 'production',
-        isEnterprise: false,
-      },
     };
-
     _.extend(this, defaults, options);
   }
 }
 
-const bootData = (window as any).grafanaBootData || { settings: {} };
-const options = bootData.settings;
+var bootData = (<any>window).grafanaBootData || { settings: {} };
+var options = bootData.settings;
 options.bootData = bootData;
 
 const config = new Settings(options);

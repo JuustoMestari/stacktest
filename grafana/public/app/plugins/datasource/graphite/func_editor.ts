@@ -20,20 +20,20 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
   return {
     restrict: 'A',
     link: function postLink($scope, elem) {
-      const $funcLink = $(funcSpanTemplate);
-      const $funcControls = $(funcControlsTemplate);
-      const ctrl = $scope.ctrl;
-      const func = $scope.func;
-      let scheduledRelink = false;
-      let paramCountAtLink = 0;
-      let cancelBlur = null;
+      var $funcLink = $(funcSpanTemplate);
+      var $funcControls = $(funcControlsTemplate);
+      var ctrl = $scope.ctrl;
+      var func = $scope.func;
+      var scheduledRelink = false;
+      var paramCountAtLink = 0;
+      var cancelBlur = null;
 
-      function clickFuncParam(this: any, paramIndex) {
+      function clickFuncParam(paramIndex) {
         /*jshint validthis:true */
 
-        const $link = $(this);
-        const $comma = $link.prev('.comma');
-        const $input = $link.next();
+        var $link = $(this);
+        var $comma = $link.prev('.comma');
+        var $input = $link.next();
 
         $input.val(func.params[paramIndex]);
 
@@ -43,7 +43,7 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
         $input.focus();
         $input.select();
 
-        const typeahead = $input.data('typeahead');
+        var typeahead = $input.data('typeahead');
         if (typeahead) {
           $input.val('');
           typeahead.lookup();
@@ -76,14 +76,14 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
 
       function switchToLink(inputElem, paramIndex) {
         /*jshint validthis:true */
-        const $input = $(inputElem);
+        var $input = $(inputElem);
 
         clearTimeout(cancelBlur);
         cancelBlur = null;
 
-        const $link = $input.prev();
-        const $comma = $link.prev('.comma');
-        const newValue = $input.val();
+        var $link = $input.prev();
+        var $comma = $link.prev('.comma');
+        var newValue = $input.val();
 
         // remove optional empty params
         if (newValue !== '' || paramDef(paramIndex).optional) {
@@ -108,9 +108,9 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
       }
 
       // this = input element
-      function inputBlur(this: any, paramIndex) {
+      function inputBlur(paramIndex) {
         /*jshint validthis:true */
-        const inputElem = this;
+        var inputElem = this;
         // happens long before the click event on the typeahead options
         // need to have long delay because the blur
         cancelBlur = setTimeout(function() {
@@ -118,14 +118,14 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
         }, 200);
       }
 
-      function inputKeyPress(this: any, paramIndex, e) {
+      function inputKeyPress(paramIndex, e) {
         /*jshint validthis:true */
         if (e.which === 13) {
           $(this).blur();
         }
       }
 
-      function inputKeyDown(this: any) {
+      function inputKeyDown() {
         /*jshint validthis:true */
         this.style.width = (3 + this.value.length) * 8 + 'px';
       }
@@ -133,7 +133,7 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
       function addTypeahead($input, paramIndex) {
         $input.attr('data-provide', 'typeahead');
 
-        let options = paramDef(paramIndex).options;
+        var options = paramDef(paramIndex).options;
         if (paramDef(paramIndex).type === 'int') {
           options = _.map(options, function(val) {
             return val.toString();
@@ -151,7 +151,7 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
           },
         });
 
-        const typeahead = $input.data('typeahead');
+        var typeahead = $input.data('typeahead');
         typeahead.lookup = function() {
           this.query = this.$element.val() || '';
           return this.process(this.source);
@@ -159,7 +159,7 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
       }
 
       function toggleFuncControls() {
-        const targetDiv = elem.closest('.tight-form');
+        var targetDiv = elem.closest('.tight-form');
 
         if (elem.hasClass('show-function-controls')) {
           elem.removeClass('show-function-controls');
@@ -178,8 +178,8 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
         $funcControls.appendTo(elem);
         $funcLink.appendTo(elem);
 
-        const defParams = _.clone(func.def.params);
-        const lastParam = _.last(func.def.params);
+        var defParams = _.clone(func.def.params);
+        var lastParam = _.last(func.def.params);
 
         while (func.params.length >= defParams.length && lastParam && lastParam.multiple) {
           defParams.push(_.assign({}, lastParam, { optional: true }));
@@ -190,9 +190,9 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
             return false;
           }
 
-          let paramValue = templateSrv.highlightVariablesAsHtml(func.params[index]);
+          var paramValue = templateSrv.highlightVariablesAsHtml(func.params[index]);
 
-          const last = index >= func.params.length - 1 && param.optional && !paramValue;
+          var last = index >= func.params.length - 1 && param.optional && !paramValue;
           if (last && param.multiple) {
             paramValue = '+';
           }
@@ -201,14 +201,14 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
             $('<span class="comma' + (last ? ' query-part__last' : '') + '">, </span>').appendTo(elem);
           }
 
-          const $paramLink = $(
+          var $paramLink = $(
             '<a ng-click="" class="graphite-func-param-link' +
               (last ? ' query-part__last' : '') +
               '">' +
               (paramValue || '&nbsp;') +
               '</a>'
           );
-          const $input = $(paramTemplate);
+          var $input = $(paramTemplate);
           $input.attr('placeholder', param.name);
 
           paramCountAtLink++;
@@ -251,7 +251,7 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
 
       function registerFuncControlsActions() {
         $funcControls.click(function(e) {
-          const $target = $(e.target);
+          var $target = $(e.target);
           if ($target.hasClass('fa-remove')) {
             toggleFuncControls();
             $scope.$apply(function() {
@@ -277,7 +277,7 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
           }
 
           if ($target.hasClass('fa-question-circle')) {
-            const funcDef = ctrl.datasource.getFuncDef(func.def.name);
+            var funcDef = ctrl.datasource.getFuncDef(func.def.name);
             if (funcDef && funcDef.description) {
               popoverSrv.show({
                 element: e.target,

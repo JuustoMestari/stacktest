@@ -13,11 +13,11 @@ class GrafanaDatasource {
         maxDataPoints: options.maxDataPoints,
       })
       .then(res => {
-        const data = [];
+        var data = [];
 
         if (res.results) {
           _.forEach(res.results, queryRes => {
-            for (const series of queryRes.series) {
+            for (let series of queryRes.series) {
               data.push({
                 target: series.name,
                 datapoints: series.points,

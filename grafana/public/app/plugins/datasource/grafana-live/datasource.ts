@@ -8,7 +8,7 @@ class DataObservable {
   }
 
   subscribe(options) {
-    const observable = liveSrv.subscribe(this.target.stream);
+    var observable = liveSrv.subscribe(this.target.stream);
     return observable.subscribe(data => {
       console.log('grafana stream ds data!', data);
     });
@@ -26,8 +26,8 @@ export class GrafanaStreamDS {
       return Promise.resolve({ data: [] });
     }
 
-    const target = options.targets[0];
-    const observable = new DataObservable(target);
+    var target = options.targets[0];
+    var observable = new DataObservable(target);
 
     return Promise.resolve(observable);
   }

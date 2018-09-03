@@ -60,14 +60,14 @@ export class AlertSrv {
       }
     }
 
-    const newAlert = {
+    var newAlert = {
       title: title || '',
       text: text || '',
       severity: severity || 'info',
       icon: this.getIconForSeverity(severity),
     };
 
-    const newAlertJson = angular.toJson(newAlert);
+    var newAlertJson = angular.toJson(newAlert);
 
     // remove same alert if it already exists
     _.remove(this.list, function(value) {

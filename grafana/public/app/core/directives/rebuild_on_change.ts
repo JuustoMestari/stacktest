@@ -2,11 +2,11 @@ import $ from 'jquery';
 import coreModule from '../core_module';
 
 function getBlockNodes(nodes) {
-  let node = nodes[0];
-  const endNode = nodes[nodes.length - 1];
-  let blockNodes;
+  var node = nodes[0];
+  var endNode = nodes[nodes.length - 1];
+  var blockNodes;
 
-  for (let i = 1; node !== endNode && (node = node.nextSibling); i++) {
+  for (var i = 1; node !== endNode && (node = node.nextSibling); i++) {
     if (blockNodes || nodes[i] !== node) {
       if (!blockNodes) {
         blockNodes = $([].slice.call(nodes, 0, i));
@@ -18,7 +18,7 @@ function getBlockNodes(nodes) {
   return blockNodes || nodes;
 }
 
-/** @ngInject */
+/** @ngInject **/
 function rebuildOnChange($animate) {
   return {
     multiElement: true,
@@ -27,7 +27,7 @@ function rebuildOnChange($animate) {
     priority: 600,
     restrict: 'E',
     link: function(scope, elem, attrs, ctrl, transclude) {
-      let block, childScope, previousElements;
+      var block, childScope, previousElements;
 
       function cleanUp() {
         if (previousElements) {

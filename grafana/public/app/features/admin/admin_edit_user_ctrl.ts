@@ -29,14 +29,14 @@ export class AdminEditUserCtrl {
         return;
       }
 
-      const payload = { password: $scope.password };
+      var payload = { password: $scope.password };
       backendSrv.put('/api/admin/users/' + $scope.user_id + '/password', payload).then(function() {
         $location.path('/admin/users');
       });
     };
 
     $scope.updatePermissions = function() {
-      const payload = $scope.permissions;
+      var payload = $scope.permissions;
 
       backendSrv.put('/api/admin/users/' + $scope.user_id + '/permissions', payload).then(function() {
         $location.path('/admin/users');
@@ -99,7 +99,7 @@ export class AdminEditUserCtrl {
         return;
       }
 
-      const orgInfo = _.find($scope.orgsSearchCache, {
+      var orgInfo = _.find($scope.orgsSearchCache, {
         name: $scope.newOrg.name,
       });
       if (!orgInfo) {

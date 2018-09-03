@@ -13,7 +13,7 @@ export class LiveSrv {
   }
 
   getWebSocketUrl() {
-    const l = window.location;
+    var l = window.location;
     return (l.protocol === 'https:' ? 'wss://' : 'ws://') + l.host + config.appSubUrl + '/ws';
   }
 
@@ -66,7 +66,7 @@ export class LiveSrv {
       return;
     }
 
-    const observer = this.observers[message.stream];
+    var observer = this.observers[message.stream];
     if (!observer) {
       this.removeObserver(message.stream, null);
       return;
@@ -128,5 +128,5 @@ export class LiveSrv {
   }
 }
 
-const instance = new LiveSrv();
+var instance = new LiveSrv();
 export { instance as liveSrv };

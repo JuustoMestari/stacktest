@@ -4,13 +4,13 @@ import { Async } from 'react-select';
 import { TagValue } from './TagValue';
 import { TagOption } from './TagOption';
 
-export interface Props {
+export interface IProps {
   tags: string[];
   tagOptions: () => any;
   onSelect: (tag: string) => void;
 }
 
-export class TagFilter extends React.Component<Props, any> {
+export class TagFilter extends React.Component<IProps, any> {
   inlineTags: boolean;
 
   constructor(props) {
@@ -43,7 +43,7 @@ export class TagFilter extends React.Component<Props, any> {
   }
 
   render() {
-    const selectOptions = {
+    let selectOptions = {
       loadOptions: this.searchTags,
       onChange: this.onChange,
       value: this.props.tags,

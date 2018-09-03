@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { QueryPartDef, QueryPart } from 'app/core/components/query_part/query_part';
 
-const alertQueryDef = new QueryPartDef({
+var alertQueryDef = new QueryPartDef({
   type: 'query',
   params: [
     { name: 'queryRefId', type: 'string', dynamicLookup: true },
@@ -15,9 +15,9 @@ const alertQueryDef = new QueryPartDef({
   defaultParams: ['#A', '15m', 'now', 'avg'],
 });
 
-const conditionTypes = [{ text: 'Query', value: 'query' }];
+var conditionTypes = [{ text: 'Query', value: 'query' }];
 
-const alertStateSortScore = {
+var alertStateSortScore = {
   alerting: 1,
   no_data: 2,
   pending: 3,
@@ -25,7 +25,7 @@ const alertStateSortScore = {
   paused: 5,
 };
 
-const evalFunctions = [
+var evalFunctions = [
   { text: 'IS ABOVE', value: 'gt' },
   { text: 'IS BELOW', value: 'lt' },
   { text: 'IS OUTSIDE RANGE', value: 'outside_range' },
@@ -33,9 +33,9 @@ const evalFunctions = [
   { text: 'HAS NO VALUE', value: 'no_value' },
 ];
 
-const evalOperators = [{ text: 'OR', value: 'or' }, { text: 'AND', value: 'and' }];
+var evalOperators = [{ text: 'OR', value: 'or' }, { text: 'AND', value: 'and' }];
 
-const reducerTypes = [
+var reducerTypes = [
   { text: 'avg()', value: 'avg' },
   { text: 'min()', value: 'min' },
   { text: 'max()', value: 'max' },
@@ -48,17 +48,17 @@ const reducerTypes = [
   { text: 'count_non_null()', value: 'count_non_null' },
 ];
 
-const noDataModes = [
+var noDataModes = [
   { text: 'Alerting', value: 'alerting' },
   { text: 'No Data', value: 'no_data' },
   { text: 'Keep Last State', value: 'keep_state' },
   { text: 'Ok', value: 'ok' },
 ];
 
-const executionErrorModes = [{ text: 'Alerting', value: 'alerting' }, { text: 'Keep Last State', value: 'keep_state' }];
+var executionErrorModes = [{ text: 'Alerting', value: 'alerting' }, { text: 'Keep Last State', value: 'keep_state' }];
 
 function createReducerPart(model) {
-  const def = new QueryPartDef({ type: model.type, defaultParams: [] });
+  var def = new QueryPartDef({ type: model.type, defaultParams: [] });
   return new QueryPart(model, def);
 }
 

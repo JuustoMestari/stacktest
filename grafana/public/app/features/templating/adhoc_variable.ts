@@ -3,7 +3,6 @@ import { Variable, assignModelProperties, variableTypes } from './variable';
 
 export class AdhocVariable implements Variable {
   filters: any[];
-  skipUrlSync: boolean;
 
   defaults = {
     type: 'adhoc',
@@ -12,10 +11,9 @@ export class AdhocVariable implements Variable {
     hide: 0,
     datasource: null,
     filters: [],
-    skipUrlSync: false,
   };
 
-  /** @ngInject */
+  /** @ngInject **/
   constructor(private model) {
     assignModelProperties(this, model, this.defaults);
   }
@@ -43,7 +41,7 @@ export class AdhocVariable implements Variable {
     }
 
     this.filters = urlValue.map(item => {
-      const values = item.split('|').map(value => {
+      var values = item.split('|').map(value => {
         return this.unescapeDelimiter(value);
       });
       return {

@@ -66,7 +66,7 @@ class DashListCtrl extends PanelCtrl {
   }
 
   onRefresh() {
-    const promises = [];
+    var promises = [];
 
     promises.push(this.getRecentDashboards());
     promises.push(this.getStarred());
@@ -81,7 +81,7 @@ class DashListCtrl extends PanelCtrl {
       return Promise.resolve();
     }
 
-    const params = {
+    var params = {
       limit: this.panel.limit,
       query: this.panel.query,
       tag: this.panel.tags,
@@ -100,7 +100,7 @@ class DashListCtrl extends PanelCtrl {
       return Promise.resolve();
     }
 
-    const params = { limit: this.panel.limit, starred: 'true' };
+    var params = { limit: this.panel.limit, starred: 'true' };
     return this.backendSrv.search(params).then(result => {
       this.groups[0].list = result;
     });
@@ -123,7 +123,7 @@ class DashListCtrl extends PanelCtrl {
       return Promise.resolve();
     }
 
-    const dashIds = _.take(impressionSrv.getDashboardOpened(), this.panel.limit);
+    var dashIds = _.take(impressionSrv.getDashboardOpened(), this.panel.limit);
     return this.backendSrv.search({ dashboardIds: dashIds, limit: this.panel.limit }).then(result => {
       this.groups[1].list = dashIds
         .map(orderId => {

@@ -94,14 +94,14 @@ export class SaveDashboardModalCtrl {
       return;
     }
 
-    const options = {
+    var options = {
       saveVariables: this.saveVariables,
       saveTimerange: this.saveTimerange,
       message: this.message,
     };
 
-    const dashboard = this.dashboardSrv.getCurrent();
-    const saveModel = dashboard.getSaveModelClone(options);
+    var dashboard = this.dashboardSrv.getCurrent();
+    var saveModel = dashboard.getSaveModelClone(options);
 
     this.isSaving = true;
 

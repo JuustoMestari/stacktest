@@ -7,11 +7,11 @@ export class LinkSrv {
   constructor(private templateSrv, private timeSrv) {}
 
   getLinkUrl(link) {
-    const url = this.templateSrv.replace(link.url || '');
-    const params = {};
+    var url = this.templateSrv.replace(link.url || '');
+    var params = {};
 
     if (link.keepTime) {
-      const range = this.timeSrv.timeRangeForUrl();
+      var range = this.timeSrv.timeRangeForUrl();
       params['from'] = range.from;
       params['to'] = range.to;
     }
@@ -24,7 +24,7 @@ export class LinkSrv {
   }
 
   addParamsToUrl(url, params) {
-    const paramsArray = [];
+    var paramsArray = [];
 
     _.each(params, function(value, key) {
       if (value === null) {
@@ -50,7 +50,7 @@ export class LinkSrv {
 
   appendToQueryString(url, stringToAppend) {
     if (!_.isUndefined(stringToAppend) && stringToAppend !== null && stringToAppend !== '') {
-      const pos = url.indexOf('?');
+      var pos = url.indexOf('?');
       if (pos !== -1) {
         if (url.length - pos > 1) {
           url += '&';
@@ -65,36 +65,32 @@ export class LinkSrv {
   }
 
   getAnchorInfo(link) {
-    const info: any = {};
+    var info: any = {};
     info.href = this.getLinkUrl(link);
     info.title = this.templateSrv.replace(link.title || '');
     return info;
   }
 
   getPanelLinkAnchorInfo(link, scopedVars) {
-    const info: any = {};
+    var info: any = {};
     if (link.type === 'absolute') {
       info.target = link.targetBlank ? '_blank' : '_self';
       info.href = this.templateSrv.replace(link.url || '', scopedVars);
       info.title = this.templateSrv.replace(link.title || '', scopedVars);
-    } else if (link.url) {
-      info.href = link.url;
-      info.title = this.templateSrv.replace(link.title || '', scopedVars);
-      info.target = link.targetBlank ? '_blank' : '';
     } else if (link.dashUri) {
       info.href = 'dashboard/' + link.dashUri + '?';
       info.title = this.templateSrv.replace(link.title || '', scopedVars);
       info.target = link.targetBlank ? '_blank' : '';
     } else {
       info.title = this.templateSrv.replace(link.title || '', scopedVars);
-      const slug = kbn.slugifyForUrl(link.dashboard || '');
+      var slug = kbn.slugifyForUrl(link.dashboard || '');
       info.href = 'dashboard/db/' + slug + '?';
     }
 
-    const params = {};
+    var params = {};
 
     if (link.keepTime) {
-      const range = this.timeSrv.timeRangeForUrl();
+      var range = this.timeSrv.timeRangeForUrl();
       params['from'] = range.from;
       params['to'] = range.to;
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export interface Props {
+export interface IProps {
   onSelect: any;
   onFocus: any;
   option: any;
@@ -8,7 +8,7 @@ export interface Props {
   className: any;
 }
 
-class DescriptionOption extends Component<Props, any> {
+class DescriptionOption extends Component<IProps, any> {
   constructor(props) {
     super(props);
     this.handleMouseDown = this.handleMouseDown.bind(this);

@@ -14,9 +14,9 @@ coreModule.directive('giveFocus', function() {
         }
         setTimeout(function() {
           element.focus();
-          const domEl = element[0];
+          var domEl = element[0];
           if (domEl.setSelectionRange) {
-            const pos = element.val().length * 2;
+            var pos = element.val().length * 2;
             domEl.setSelectionRange(pos, pos);
           }
         }, 200);

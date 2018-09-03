@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import coreModule from '../../core_module';
 
-function typeaheadMatcher(this: any, item) {
-  let str = this.query;
+function typeaheadMatcher(item) {
+  var str = this.query;
   if (str === '') {
     return true;
   }
@@ -36,7 +36,7 @@ export class FormDropdownCtrl {
   startOpen: any;
   debounce: number;
 
-  /** @ngInject */
+  /** @ngInject **/
   constructor(private $scope, $element, private $sce, private templateSrv, private $q) {
     this.inputElement = $element.find('input').first();
     this.linkElement = $element.find('a').first();
@@ -67,7 +67,7 @@ export class FormDropdownCtrl {
 
     // modify typeahead lookup
     // this = typeahead
-    const typeahead = this.inputElement.data('typeahead');
+    var typeahead = this.inputElement.data('typeahead');
     typeahead.lookup = function() {
       this.query = this.$element.val() || '';
       this.source(this.query, this.process.bind(this));
@@ -100,7 +100,7 @@ export class FormDropdownCtrl {
   }
 
   getOptionsInternal(query) {
-    const result = this.getOptions({ $query: query });
+    var result = this.getOptions({ $query: query });
     if (this.isPromiseLike(result)) {
       return result;
     }
@@ -118,7 +118,7 @@ export class FormDropdownCtrl {
       // if we have text use it
       if (this.lookupText) {
         this.getOptionsInternal('').then(options => {
-          const item = _.find(options, { value: this.model });
+          var item = _.find(options, { value: this.model });
           this.updateDisplay(item ? item.text : this.model);
         });
       } else {
@@ -132,7 +132,7 @@ export class FormDropdownCtrl {
       this.optionCache = options;
 
       // extract texts
-      const optionTexts = _.map(options, op => {
+      let optionTexts = _.map(options, op => {
         return _.escape(op.text);
       });
 
@@ -186,7 +186,7 @@ export class FormDropdownCtrl {
     }
 
     this.$scope.$apply(() => {
-      const option = _.find(this.optionCache, { text: text });
+      var option = _.find(this.optionCache, { text: text });
 
       if (option) {
         if (_.isObject(this.model)) {
@@ -228,7 +228,7 @@ export class FormDropdownCtrl {
     this.linkElement.hide();
     this.linkMode = false;
 
-    const typeahead = this.inputElement.data('typeahead');
+    var typeahead = this.inputElement.data('typeahead');
     if (typeahead) {
       this.inputElement.val('');
       typeahead.lookup();

@@ -21,7 +21,7 @@ class PrometheusQueryCtrl extends QueryCtrl {
   constructor($scope, $injector, private templateSrv) {
     super($scope, $injector);
 
-    const target = this.target;
+    var target = this.target;
     target.expr = target.expr || '';
     target.intervalFactor = target.intervalFactor || 1;
     target.format = target.format || this.getDefaultFormat();
@@ -65,14 +65,14 @@ class PrometheusQueryCtrl extends QueryCtrl {
   }
 
   updateLink() {
-    const range = this.panelCtrl.range;
+    var range = this.panelCtrl.range;
     if (!range) {
       return;
     }
 
-    const rangeDiff = Math.ceil((range.to.valueOf() - range.from.valueOf()) / 1000);
-    const endTime = range.to.utc().format('YYYY-MM-DD HH:mm');
-    const expr = {
+    var rangeDiff = Math.ceil((range.to.valueOf() - range.from.valueOf()) / 1000);
+    var endTime = range.to.utc().format('YYYY-MM-DD HH:mm');
+    var expr = {
       'g0.expr': this.templateSrv.replace(
         this.target.expr,
         this.panelCtrl.panel.scopedVars,
@@ -84,7 +84,7 @@ class PrometheusQueryCtrl extends QueryCtrl {
       'g0.stacked': this.panelCtrl.panel.stack ? 1 : 0,
       'g0.tab': 0,
     };
-    const args = _.map(expr, (v, k) => {
+    var args = _.map(expr, (v, k) => {
       return k + '=' + encodeURIComponent(v);
     }).join('&');
     this.linkToPrometheus = this.datasource.directUrl + '/graph?' + args;

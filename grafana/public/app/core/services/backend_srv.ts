@@ -43,7 +43,7 @@ export class BackendSrv {
       return;
     }
 
-    let data = err.data || { message: 'Unexpected error' };
+    var data = err.data || { message: 'Unexpected error' };
     if (_.isString(data)) {
       data = { message: data };
     }
@@ -74,8 +74,8 @@ export class BackendSrv {
 
   request(options) {
     options.retry = options.retry || 0;
-    const requestIsLocal = !options.url.match(/^http/);
-    const firstAttempt = options.retry === 0;
+    var requestIsLocal = !options.url.match(/^http/);
+    var firstAttempt = options.retry === 0;
 
     if (requestIsLocal) {
       if (this.contextSrv.user && this.contextSrv.user.orgId) {
@@ -123,31 +123,30 @@ export class BackendSrv {
   }
 
   resolveCancelerIfExists(requestId) {
-    const cancelers = this.inFlightRequests[requestId];
+    var cancelers = this.inFlightRequests[requestId];
     if (!_.isUndefined(cancelers) && cancelers.length) {
       cancelers[0].resolve();
     }
   }
 
   datasourceRequest(options) {
-    let canceler = null;
     options.retry = options.retry || 0;
 
     // A requestID is provided by the datasource as a unique identifier for a
     // particular query. If the requestID exists, the promise it is keyed to
     // is canceled, canceling the previous datasource request if it is still
     // in-flight.
-    const requestId = options.requestId;
+    var requestId = options.requestId;
     if (requestId) {
       this.resolveCancelerIfExists(requestId);
       // create new canceler
-      canceler = this.$q.defer();
+      var canceler = this.$q.defer();
       options.timeout = canceler.promise;
       this.addCanceler(requestId, canceler);
     }
 
-    const requestIsLocal = !options.url.match(/^http/);
-    const firstAttempt = options.retry === 0;
+    var requestIsLocal = !options.url.match(/^http/);
+    var firstAttempt = options.retry === 0;
 
     if (requestIsLocal) {
       if (this.contextSrv.user && this.contextSrv.user.orgId) {
@@ -277,11 +276,11 @@ export class BackendSrv {
   deleteFoldersAndDashboards(folderUids, dashboardUids) {
     const tasks = [];
 
-    for (const folderUid of folderUids) {
+    for (let folderUid of folderUids) {
       tasks.push(this.createTask(this.deleteFolder.bind(this), true, folderUid, true));
     }
 
-    for (const dashboardUid of dashboardUids) {
+    for (let dashboardUid of dashboardUids) {
       tasks.push(this.createTask(this.deleteDashboard.bind(this), true, dashboardUid, true));
     }
 
@@ -291,7 +290,7 @@ export class BackendSrv {
   moveDashboards(dashboardUids, toFolder) {
     const tasks = [];
 
-    for (const uid of dashboardUids) {
+    for (let uid of dashboardUids) {
       tasks.push(this.createTask(this.moveDashboard.bind(this), true, uid, toFolder));
     }
 
@@ -305,7 +304,7 @@ export class BackendSrv {
   }
 
   private moveDashboard(uid, toFolder) {
-    const deferred = this.$q.defer();
+    let deferred = this.$q.defer();
 
     this.getDashboardByUid(uid).then(fullDash => {
       const model = new DashboardModel(fullDash.dashboard, fullDash.meta);
@@ -316,7 +315,7 @@ export class BackendSrv {
       }
 
       const clone = model.getSaveModelClone();
-      const options = {
+      let options = {
         folderId: toFolder.id,
         overwrite: false,
       };
@@ -369,17 +368,3 @@ export class BackendSrv {
 }
 
 coreModule.service('backendSrv', BackendSrv);
-
-//
-// Code below is to expore the service to react components
-//
-
-let singletonInstance: BackendSrv;
-
-export function setBackendSrv(instance: BackendSrv) {
-  singletonInstance = instance;
-}
-
-export function getBackendSrv(): BackendSrv {
-  return singletonInstance;
-}

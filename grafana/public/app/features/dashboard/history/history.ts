@@ -67,7 +67,7 @@ export class HistoryListCtrl {
   }
 
   revisionSelectionChanged() {
-    const selected = _.filter(this.revisions, { checked: true }).length;
+    let selected = _.filter(this.revisions, { checked: true }).length;
     this.canCompare = selected === 2;
   }
 
@@ -134,7 +134,7 @@ export class HistoryListCtrl {
       .getHistoryList(this.dashboard, options)
       .then(revisions => {
         // set formatted dates & default values
-        for (const rev of revisions) {
+        for (let rev of revisions) {
           rev.createdDateString = this.formatDate(rev.created);
           rev.ageString = this.formatBasicDate(rev.created);
           rev.checked = false;

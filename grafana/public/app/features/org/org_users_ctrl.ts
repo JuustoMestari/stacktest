@@ -44,7 +44,7 @@ export class OrgUsersCtrl {
   }
 
   onQueryUpdated() {
-    const regex = new RegExp(this.searchQuery, 'ig');
+    let regex = new RegExp(this.searchQuery, 'ig');
     this.users = _.filter(this.unfiltered, item => {
       return regex.test(item.email) || regex.test(item.login);
     });

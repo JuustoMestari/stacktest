@@ -1,7 +1,7 @@
 import angular from 'angular';
 import _ from 'lodash';
 
-const pluginInfoCache = {};
+var pluginInfoCache = {};
 
 export class AppPageCtrl {
   page: any;
@@ -33,7 +33,7 @@ export class AppPageCtrl {
       return;
     }
 
-    const pluginNav = this.navModelSrv.getNav('plugin-page-' + app.id);
+    let pluginNav = this.navModelSrv.getNav('plugin-page-' + app.id);
 
     this.navModel = {
       main: {

@@ -7,7 +7,7 @@ export class ResetPasswordCtrl {
     $scope.formModel = {};
     $scope.mode = 'send';
 
-    const params = $location.search();
+    var params = $location.search();
     if (params.code) {
       $scope.mode = 'reset';
       $scope.formModel.code = params.code;

@@ -50,11 +50,11 @@ export default class InfluxQuery {
   }
 
   addGroupBy(value) {
-    const stringParts = value.match(/^(\w+)\((.*)\)$/);
-    const typePart = stringParts[1];
-    const arg = stringParts[2];
-    const partModel = queryPart.create({ type: typePart, params: [arg] });
-    const partCount = this.target.groupBy.length;
+    var stringParts = value.match(/^(\w+)\((.*)\)$/);
+    var typePart = stringParts[1];
+    var arg = stringParts[2];
+    var partModel = queryPart.create({ type: typePart, params: [arg] });
+    var partCount = this.target.groupBy.length;
 
     if (partCount === 0) {
       this.target.groupBy.push(partModel.part);
@@ -74,7 +74,7 @@ export default class InfluxQuery {
   }
 
   removeGroupByPart(part, index) {
-    const categories = queryPart.getCategories();
+    var categories = queryPart.getCategories();
 
     if (part.def.type === 'time') {
       // remove fill
@@ -82,7 +82,7 @@ export default class InfluxQuery {
       // remove aggregations
       this.target.select = _.map(this.target.select, (s: any) => {
         return _.filter(s, (part: any) => {
-          const partModel = queryPart.create(part);
+          var partModel = queryPart.create(part);
           if (partModel.def.category === categories.Aggregations) {
             return false;
           }
@@ -107,11 +107,11 @@ export default class InfluxQuery {
     // if we remove the field remove the whole statement
     if (part.def.type === 'field') {
       if (this.selectModels.length > 1) {
-        const modelsIndex = _.indexOf(this.selectModels, selectParts);
+        var modelsIndex = _.indexOf(this.selectModels, selectParts);
         this.selectModels.splice(modelsIndex, 1);
       }
     } else {
-      const partIndex = _.indexOf(selectParts, part);
+      var partIndex = _.indexOf(selectParts, part);
       selectParts.splice(partIndex, 1);
     }
 
@@ -119,15 +119,15 @@ export default class InfluxQuery {
   }
 
   addSelectPart(selectParts, type) {
-    const partModel = queryPart.create({ type: type });
+    var partModel = queryPart.create({ type: type });
     partModel.def.addStrategy(selectParts, partModel, this);
     this.updatePersistedParts();
   }
 
   private renderTagCondition(tag, index, interpolate) {
-    let str = '';
-    let operator = tag.operator;
-    let value = tag.value;
+    var str = '';
+    var operator = tag.operator;
+    var value = tag.value;
     if (index > 0) {
       str = (tag.condition || 'AND') + ' ';
     }
@@ -156,8 +156,8 @@ export default class InfluxQuery {
   }
 
   getMeasurementAndPolicy(interpolate) {
-    let policy = this.target.policy;
-    let measurement = this.target.measurement || 'measurement';
+    var policy = this.target.policy;
+    var measurement = this.target.measurement || 'measurement';
 
     if (!measurement.match('^/.*/$')) {
       measurement = '"' + measurement + '"';
@@ -184,12 +184,12 @@ export default class InfluxQuery {
       return kbn.regexEscape(value);
     }
 
-    const escapedValues = _.map(value, kbn.regexEscape);
+    var escapedValues = _.map(value, kbn.regexEscape);
     return '(' + escapedValues.join('|') + ')';
   }
 
   render(interpolate?) {
-    const target = this.target;
+    var target = this.target;
 
     if (target.rawQuery) {
       if (interpolate) {
@@ -199,13 +199,13 @@ export default class InfluxQuery {
       }
     }
 
-    let query = 'SELECT ';
-    let i, y;
+    var query = 'SELECT ';
+    var i, y;
     for (i = 0; i < this.selectModels.length; i++) {
-      const parts = this.selectModels[i];
-      let selectText = '';
+      let parts = this.selectModels[i];
+      var selectText = '';
       for (y = 0; y < parts.length; y++) {
-        const part = parts[y];
+        let part = parts[y];
         selectText = part.render(selectText);
       }
 
@@ -216,7 +216,7 @@ export default class InfluxQuery {
     }
 
     query += ' FROM ' + this.getMeasurementAndPolicy(interpolate) + ' WHERE ';
-    const conditions = _.map(target.tags, (tag, index) => {
+    var conditions = _.map(target.tags, (tag, index) => {
       return this.renderTagCondition(tag, index, interpolate);
     });
 
@@ -226,9 +226,9 @@ export default class InfluxQuery {
 
     query += '$timeFilter';
 
-    let groupBySection = '';
+    var groupBySection = '';
     for (i = 0; i < this.groupByParts.length; i++) {
-      const part = this.groupByParts[i];
+      var part = this.groupByParts[i];
       if (i > 0) {
         // for some reason fill has no separator
         groupBySection += part.def.type === 'fill' ? ' ' : ', ';
@@ -260,7 +260,7 @@ export default class InfluxQuery {
   }
 
   renderAdhocFilters(filters) {
-    const conditions = _.map(filters, (tag, index) => {
+    var conditions = _.map(filters, (tag, index) => {
       return this.renderTagCondition(tag, index, false);
     });
     return conditions.join(' ');

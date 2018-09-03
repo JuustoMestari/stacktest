@@ -4,12 +4,12 @@ import coreModule from '../core_module';
 
 /** @ngInject */
 export function dropdownTypeahead($compile) {
-  const inputTemplate =
+  let inputTemplate =
     '<input type="text"' +
     ' class="gf-form-input input-medium tight-form-input"' +
     ' spellcheck="false" style="display:none"></input>';
 
-  const buttonTemplate =
+  let buttonTemplate =
     '<a class="gf-form-label tight-form-func dropdown-toggle"' +
     ' tabindex="1" gf-dropdown="menuItems" data-toggle="dropdown"' +
     ' data-placement="top"><i class="fa fa-plus"></i></a>';
@@ -21,8 +21,8 @@ export function dropdownTypeahead($compile) {
       model: '=ngModel',
     },
     link: function($scope, elem, attrs) {
-      const $input = $(inputTemplate);
-      const $button = $(buttonTemplate);
+      let $input = $(inputTemplate);
+      let $button = $(buttonTemplate);
       $input.appendTo(elem);
       $button.appendTo(elem);
 
@@ -42,7 +42,7 @@ export function dropdownTypeahead($compile) {
         });
       }
 
-      const typeaheadValues = _.reduce(
+      let typeaheadValues = _.reduce(
         $scope.menuItems,
         function(memo, value, index) {
           if (!value.submenu) {
@@ -60,8 +60,8 @@ export function dropdownTypeahead($compile) {
       );
 
       $scope.menuItemSelected = function(index, subIndex) {
-        const menuItem = $scope.menuItems[index];
-        const payload: any = { $item: menuItem };
+        let menuItem = $scope.menuItems[index];
+        let payload: any = { $item: menuItem };
         if (menuItem.submenu && subIndex !== void 0) {
           payload.$subItem = menuItem.submenu[subIndex];
         }
@@ -74,7 +74,7 @@ export function dropdownTypeahead($compile) {
         minLength: 1,
         items: 10,
         updater: function(value) {
-          const result: any = {};
+          let result: any = {};
           _.each($scope.menuItems, function(menuItem) {
             _.each(menuItem.submenu, function(submenuItem) {
               if (value === menuItem.text + ' ' + submenuItem.text) {
@@ -124,10 +124,10 @@ export function dropdownTypeahead($compile) {
 
 /** @ngInject */
 export function dropdownTypeahead2($compile) {
-  const inputTemplate =
+  let inputTemplate =
     '<input type="text"' + ' class="gf-form-input"' + ' spellcheck="false" style="display:none"></input>';
 
-  const buttonTemplate =
+  let buttonTemplate =
     '<a class="gf-form-input dropdown-toggle"' +
     ' tabindex="1" gf-dropdown="menuItems" data-toggle="dropdown"' +
     ' data-placement="top"><i class="fa fa-plus"></i></a>';
@@ -139,8 +139,8 @@ export function dropdownTypeahead2($compile) {
       model: '=ngModel',
     },
     link: function($scope, elem, attrs) {
-      const $input = $(inputTemplate);
-      const $button = $(buttonTemplate);
+      let $input = $(inputTemplate);
+      let $button = $(buttonTemplate);
       $input.appendTo(elem);
       $button.appendTo(elem);
 
@@ -160,7 +160,7 @@ export function dropdownTypeahead2($compile) {
         });
       }
 
-      const typeaheadValues = _.reduce(
+      let typeaheadValues = _.reduce(
         $scope.menuItems,
         function(memo, value, index) {
           if (!value.submenu) {
@@ -178,8 +178,8 @@ export function dropdownTypeahead2($compile) {
       );
 
       $scope.menuItemSelected = function(index, subIndex) {
-        const menuItem = $scope.menuItems[index];
-        const payload: any = { $item: menuItem };
+        let menuItem = $scope.menuItems[index];
+        let payload: any = { $item: menuItem };
         if (menuItem.submenu && subIndex !== void 0) {
           payload.$subItem = menuItem.submenu[subIndex];
         }
@@ -192,7 +192,7 @@ export function dropdownTypeahead2($compile) {
         minLength: 1,
         items: 10,
         updater: function(value) {
-          const result: any = {};
+          let result: any = {};
           _.each($scope.menuItems, function(menuItem) {
             _.each(menuItem.submenu, function(submenuItem) {
               if (value === menuItem.text + ' ' + submenuItem.text) {

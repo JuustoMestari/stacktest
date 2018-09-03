@@ -11,7 +11,7 @@ export class LoadDashboardCtrl {
         if (homeDash.redirectUri) {
           $location.path(homeDash.redirectUri);
         } else {
-          const meta = homeDash.meta;
+          var meta = homeDash.meta;
           meta.canSave = meta.canShare = meta.canStar = false;
           $scope.initDashboard(homeDash, $scope);
         }
@@ -34,15 +34,13 @@ export class LoadDashboardCtrl {
         const url = locationUtil.stripBaseFromUrl(result.meta.url);
 
         if (url !== $location.path()) {
-          // replace url to not create additional history items and then return so that initDashboard below isn't executed multiple times.
           $location.path(url).replace();
-          return;
         }
       }
 
-      result.meta.autofitpanels = $routeParams.autofitpanels;
-      result.meta.kiosk = $routeParams.kiosk;
-
+      if ($routeParams.keepRows) {
+        result.meta.keepRows = true;
+      }
       $scope.initDashboard(result, $scope);
     });
   }

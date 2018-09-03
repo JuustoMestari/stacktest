@@ -1,5 +1,5 @@
 export function assignModelProperties(target, source, defaults, removeDefaults?) {
-  for (const key in defaults) {
+  for (var key in defaults) {
     if (!defaults.hasOwnProperty(key)) {
       continue;
     }

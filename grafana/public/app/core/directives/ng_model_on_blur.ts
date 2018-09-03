@@ -47,7 +47,7 @@ function validTimeSpan() {
         if (viewValue.indexOf('$') === 0 || viewValue.indexOf('+$') === 0) {
           return true; // allow template variable
         }
-        const info = rangeUtil.describeTextRange(viewValue);
+        var info = rangeUtil.describeTextRange(viewValue);
         return info.invalid !== true;
       };
     },

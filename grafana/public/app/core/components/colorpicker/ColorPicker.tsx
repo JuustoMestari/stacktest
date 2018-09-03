@@ -5,12 +5,12 @@ import Drop from 'tether-drop';
 import { ColorPickerPopover } from './ColorPickerPopover';
 import { react2AngularDirective } from 'app/core/utils/react2angular';
 
-export interface Props {
+export interface IProps {
   color: string;
   onChange: (c: string) => void;
 }
 
-export class ColorPicker extends React.Component<Props, any> {
+export class ColorPicker extends React.Component<IProps, any> {
   pickerElem: any;
   colorPickerDrop: any;
 
@@ -29,10 +29,10 @@ export class ColorPicker extends React.Component<Props, any> {
   openColorPicker() {
     const dropContent = <ColorPickerPopover color={this.props.color} onColorSelect={this.onColorSelect} />;
 
-    const dropContentElem = document.createElement('div');
+    let dropContentElem = document.createElement('div');
     ReactDOM.render(dropContent, dropContentElem);
 
-    const drop = new Drop({
+    let drop = new Drop({
       target: this.pickerElem[0],
       content: dropContentElem,
       position: 'top center',

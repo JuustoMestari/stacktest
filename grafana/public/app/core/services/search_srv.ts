@@ -31,7 +31,7 @@ export class SearchSrv {
   }
 
   private queryForRecentDashboards() {
-    const dashIds = _.take(impressionSrv.getDashboardOpened(), 5);
+    var dashIds = _.take(impressionSrv.getDashboardOpened(), 5);
     if (dashIds.length === 0) {
       return Promise.resolve([]);
     }
@@ -85,10 +85,10 @@ export class SearchSrv {
   }
 
   search(options) {
-    const sections: any = {};
-    const promises = [];
-    const query = _.clone(options);
-    const hasFilters =
+    let sections: any = {};
+    let promises = [];
+    let query = _.clone(options);
+    let hasFilters =
       options.query ||
       (options.tag && options.tag.length > 0) ||
       options.starred ||
@@ -124,7 +124,7 @@ export class SearchSrv {
     }
 
     // create folder index
-    for (const hit of results) {
+    for (let hit of results) {
       if (hit.type === 'dash-folder') {
         sections[hit.id] = {
           id: hit.id,
@@ -140,7 +140,7 @@ export class SearchSrv {
       }
     }
 
-    for (const hit of results) {
+    for (let hit of results) {
       if (hit.type === 'dash-folder') {
         continue;
       }
@@ -185,7 +185,7 @@ export class SearchSrv {
       return Promise.resolve(section);
     }
 
-    const query = {
+    let query = {
       folderIds: [section.id],
     };
 

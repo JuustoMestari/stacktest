@@ -2,11 +2,11 @@
 import withTooltip from './withTooltip';
 import { Target } from 'react-popper';
 
-interface TooltipProps {
+interface ITooltipProps {
   tooltipSetState: (prevState: object) => void;
 }
 
-class Tooltip extends React.Component<TooltipProps, any> {
+class Tooltip extends React.Component<ITooltipProps, any> {
   constructor(props) {
     super(props);
     this.showTooltip = this.showTooltip.bind(this);

@@ -3,14 +3,14 @@ import { hot } from 'react-hot-loader';
 import classNames from 'classnames';
 import { inject, observer } from 'mobx-react';
 import PageHeader from 'app/core/components/PageHeader/PageHeader';
-import { AlertRule } from 'app/stores/AlertListStore/AlertListStore';
+import { IAlertRule } from 'app/stores/AlertListStore/AlertListStore';
 import appEvents from 'app/core/app_events';
-import ContainerProps from 'app/containers/ContainerProps';
+import IContainerProps from 'app/containers/IContainerProps';
 import Highlighter from 'react-highlight-words';
 
 @inject('view', 'nav', 'alertList')
 @observer
-export class AlertRuleList extends React.Component<ContainerProps, any> {
+export class AlertRuleList extends React.Component<IContainerProps, any> {
   stateFilters = [
     { text: 'All', value: 'all' },
     { text: 'OK', value: 'ok' },
@@ -109,7 +109,7 @@ function AlertStateFilterOption({ text, value }) {
 }
 
 export interface AlertRuleItemProps {
-  rule: AlertRule;
+  rule: IAlertRule;
   search: string;
 }
 
@@ -132,13 +132,13 @@ export class AlertRuleItem extends React.Component<AlertRuleItemProps, any> {
   render() {
     const { rule } = this.props;
 
-    const stateClass = classNames({
+    let stateClass = classNames({
       fa: true,
       'fa-play': rule.isPaused,
       'fa-pause': !rule.isPaused,
     });
 
-    const ruleUrl = `${rule.url}?panelId=${rule.panelId}&fullscreen=true&edit=true&tab=alert`;
+    let ruleUrl = `${rule.url}?panelId=${rule.panelId}&fullscreen=true&edit=true&tab=alert`;
 
     return (
       <li className="alert-rule-item">

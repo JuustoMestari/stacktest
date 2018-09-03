@@ -10,19 +10,19 @@ export interface Variable {
   getSaveModel();
 }
 
-export let variableTypes = {};
+export var variableTypes = {};
 export { assignModelProperties };
 
 export function containsVariable(...args: any[]) {
-  let variableName = args[args.length - 1];
-  let str = args[0] || '';
+  var variableName = args[args.length - 1];
+  var str = args[0] || '';
 
-  for (let i = 1; i < args.length - 1; i++) {
+  for (var i = 1; i < args.length - 1; i++) {
     str += ' ' + args[i] || '';
   }
 
   variableName = kbn.regexEscape(variableName);
-  const findVarRegex = new RegExp('\\$(' + variableName + ')(?:\\W|$)|\\[\\[(' + variableName + ')\\]\\]', 'g');
-  const match = findVarRegex.exec(str);
+  var findVarRegex = new RegExp('\\$(' + variableName + ')(?:\\W|$)|\\[\\[(' + variableName + ')\\]\\]', 'g');
+  var match = findVarRegex.exec(str);
   return match !== null;
 }

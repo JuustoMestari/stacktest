@@ -1,19 +1,19 @@
 import { types, getEnv, flow } from 'mobx-state-tree';
-import { AlertRule as AlertRuleModel } from './AlertRule';
+import { AlertRule } from './AlertRule';
 import { setStateFields } from './helpers';
 
-type AlertRuleType = typeof AlertRuleModel.Type;
-export interface AlertRule extends AlertRuleType {}
+type IAlertRuleType = typeof AlertRule.Type;
+export interface IAlertRule extends IAlertRuleType {}
 
 export const AlertListStore = types
   .model('AlertListStore', {
-    rules: types.array(AlertRuleModel),
+    rules: types.array(AlertRule),
     stateFilter: types.optional(types.string, 'all'),
     search: types.optional(types.string, ''),
   })
   .views(self => ({
     get filteredRules() {
-      const regex = new RegExp(self.search, 'i');
+      let regex = new RegExp(self.search, 'i');
       return self.rules.filter(alert => {
         return regex.test(alert.name) || regex.test(alert.stateText) || regex.test(alert.info);
       });
@@ -26,7 +26,7 @@ export const AlertListStore = types
       const apiRules = yield backendSrv.get('/api/alerts', filters);
       self.rules.clear();
 
-      for (const rule of apiRules) {
+      for (let rule of apiRules) {
         setStateFields(rule, rule.state);
 
         if (rule.state !== 'paused') {
@@ -38,7 +38,7 @@ export const AlertListStore = types
           }
         }
 
-        self.rules.push(AlertRuleModel.create(rule));
+        self.rules.push(AlertRule.create(rule));
       }
     }),
     setSearchQuery(query: string) {

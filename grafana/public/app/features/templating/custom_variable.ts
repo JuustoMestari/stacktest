@@ -7,7 +7,6 @@ export class CustomVariable implements Variable {
   includeAll: boolean;
   multi: boolean;
   current: any;
-  skipUrlSync: boolean;
 
   defaults = {
     type: 'custom',
@@ -20,10 +19,9 @@ export class CustomVariable implements Variable {
     includeAll: false,
     multi: false,
     allValue: null,
-    skipUrlSync: false,
   };
 
-  /** @ngInject */
+  /** @ngInject **/
   constructor(private model, private variableSrv) {
     assignModelProperties(this, model, this.defaults);
   }

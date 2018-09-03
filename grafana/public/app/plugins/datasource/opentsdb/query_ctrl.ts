@@ -19,7 +19,7 @@ export class OpenTsQueryCtrl extends QueryCtrl {
   addTagMode: boolean;
   addFilterMode: boolean;
 
-  /** @ngInject */
+  /** @ngInject **/
   constructor($scope, $injector) {
     super($scope, $injector);
 
@@ -161,7 +161,7 @@ export class OpenTsQueryCtrl extends QueryCtrl {
     this.errors = this.validateTarget();
 
     if (!this.errors.filters) {
-      const currentFilter = {
+      var currentFilter = {
         type: this.target.currentFilterType,
         tagk: this.target.currentFilterKey,
         filter: this.target.currentFilterValue,
@@ -198,7 +198,7 @@ export class OpenTsQueryCtrl extends QueryCtrl {
   }
 
   validateTarget() {
-    const errs: any = {};
+    var errs: any = {};
 
     if (this.target.shouldDownsample) {
       try {

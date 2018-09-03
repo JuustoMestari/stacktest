@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import * as dateMath from './datemath';
 
-const spans = {
+var spans = {
   s: { display: 'second' },
   m: { display: 'minute' },
   h: { display: 'hour' },
@@ -12,7 +12,7 @@ const spans = {
   y: { display: 'year' },
 };
 
-const rangeOptions = [
+var rangeOptions = [
   { from: 'now/d', to: 'now/d', display: 'Today', section: 2 },
   { from: 'now/d', to: 'now', display: 'Today so far', section: 2 },
   { from: 'now/w', to: 'now/w', display: 'This week', section: 2 },
@@ -58,15 +58,15 @@ const rangeOptions = [
   { from: 'now-5y', to: 'now', display: 'Last 5 years', section: 0 },
 ];
 
-const absoluteFormat = 'MMM D, YYYY HH:mm:ss';
+var absoluteFormat = 'MMM D, YYYY HH:mm:ss';
 
-const rangeIndex = {};
+var rangeIndex = {};
 _.each(rangeOptions, function(frame) {
   rangeIndex[frame.from + ' to ' + frame.to] = frame;
 });
 
 export function getRelativeTimesList(timepickerSettings, currentDisplay) {
-  const groups = _.groupBy(rangeOptions, (option: any) => {
+  var groups = _.groupBy(rangeOptions, (option: any) => {
     option.active = option.display === currentDisplay;
     return option.section;
   });
@@ -92,7 +92,7 @@ function formatDate(date) {
 // now/d
 // if no to <expr> then to now is assumed
 export function describeTextRange(expr: any) {
-  const isLast = expr.indexOf('+') !== 0;
+  let isLast = expr.indexOf('+') !== 0;
   if (expr.indexOf('now') === -1) {
     expr = (isLast ? 'now-' : 'now') + expr;
   }
@@ -108,11 +108,11 @@ export function describeTextRange(expr: any) {
     opt = { from: 'now', to: expr };
   }
 
-  const parts = /^now([-+])(\d+)(\w)/.exec(expr);
+  let parts = /^now([-+])(\d+)(\w)/.exec(expr);
   if (parts) {
-    const unit = parts[3];
-    const amount = parseInt(parts[2]);
-    const span = spans[unit];
+    let unit = parts[3];
+    let amount = parseInt(parts[2]);
+    let span = spans[unit];
     if (span) {
       opt.display = isLast ? 'Last ' : 'Next ';
       opt.display += amount + ' ' + span.display;
@@ -130,7 +130,7 @@ export function describeTextRange(expr: any) {
 }
 
 export function describeTimeRange(range) {
-  const option = rangeIndex[range.from.toString() + ' to ' + range.to.toString()];
+  var option = rangeIndex[range.from.toString() + ' to ' + range.to.toString()];
   if (option) {
     return option.display;
   }
@@ -140,17 +140,17 @@ export function describeTimeRange(range) {
   }
 
   if (moment.isMoment(range.from)) {
-    const toMoment = dateMath.parse(range.to, true);
+    var toMoment = dateMath.parse(range.to, true);
     return formatDate(range.from) + ' to ' + toMoment.fromNow();
   }
 
   if (moment.isMoment(range.to)) {
-    const from = dateMath.parse(range.from, false);
+    var from = dateMath.parse(range.from, false);
     return from.fromNow() + ' to ' + formatDate(range.to);
   }
 
   if (range.to.toString() === 'now') {
-    const res = describeTextRange(range.from);
+    var res = describeTextRange(range.from);
     return res.display;
   }
 

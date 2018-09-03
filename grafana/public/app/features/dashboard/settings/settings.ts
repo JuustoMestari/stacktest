@@ -109,7 +109,7 @@ export class SettingsCtrl {
     const params = this.$location.search();
     const url = this.$location.path();
 
-    for (const section of this.sections) {
+    for (let section of this.sections) {
       const sectionParams = _.defaults({ editview: section.id }, params);
       section.url = config.appSubUrl + url + '?' + $.param(sectionParams);
     }
@@ -156,7 +156,7 @@ export class SettingsCtrl {
   }
 
   hideSettings() {
-    const urlParams = this.$location.search();
+    var urlParams = this.$location.search();
     delete urlParams.editview;
     setTimeout(() => {
       this.$rootScope.$apply(() => {
@@ -179,8 +179,8 @@ export class SettingsCtrl {
   }
 
   deleteDashboard() {
-    let confirmText = '';
-    let text2 = this.dashboard.title;
+    var confirmText = '';
+    var text2 = this.dashboard.title;
 
     const alerts = _.sumBy(this.dashboard.panels, panel => {
       return panel.alert ? 1 : 0;

@@ -6,7 +6,7 @@ export class MssqlDatasource {
   name: any;
   responseParser: ResponseParser;
 
-  /** @ngInject */
+  /** @ngInject **/
   constructor(instanceSettings, private backendSrv, private $q, private templateSrv) {
     this.name = instanceSettings.name;
     this.id = instanceSettings.id;
@@ -16,7 +16,7 @@ export class MssqlDatasource {
   interpolateVariable(value, variable) {
     if (typeof value === 'string') {
       if (variable.multi || variable.includeAll) {
-        return "'" + value.replace(/'/g, `''`) + "'";
+        return "'" + value + "'";
       } else {
         return value;
       }
@@ -26,18 +26,18 @@ export class MssqlDatasource {
       return value;
     }
 
-    const quotedValues = _.map(value, function(val) {
+    var quotedValues = _.map(value, function(val) {
       if (typeof value === 'number') {
         return value;
       }
 
-      return "'" + val.replace(/'/g, `''`) + "'";
+      return "'" + val + "'";
     });
     return quotedValues.join(',');
   }
 
   query(options) {
-    const queries = _.filter(options.targets, item => {
+    var queries = _.filter(options.targets, item => {
       return item.hide !== true;
     }).map(item => {
       return {

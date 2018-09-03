@@ -46,16 +46,16 @@ export class ValueSelectDropdownCtrl {
   }
 
   updateLinkText() {
-    const current = this.variable.current;
+    let current = this.variable.current;
 
     if (current.tags && current.tags.length) {
       // filer out values that are in selected tags
-      const selectedAndNotInTag = _.filter(this.variable.options, option => {
+      let selectedAndNotInTag = _.filter(this.variable.options, option => {
         if (!option.selected) {
           return false;
         }
         for (let i = 0; i < current.tags.length; i++) {
-          const tag = current.tags[i];
+          let tag = current.tags[i];
           if (_.indexOf(tag.values, option.value) !== -1) {
             return false;
           }
@@ -64,7 +64,7 @@ export class ValueSelectDropdownCtrl {
       });
 
       // convert values to text
-      const currentTexts = _.map(selectedAndNotInTag, 'text');
+      let currentTexts = _.map(selectedAndNotInTag, 'text');
 
       // join texts
       this.linkText = currentTexts.join(' + ');
@@ -93,7 +93,7 @@ export class ValueSelectDropdownCtrl {
       tagValuesPromise = this.$q.when(tag.values);
     }
 
-    return tagValuesPromise.then(values => {
+    tagValuesPromise.then(values => {
       tag.values = values;
       tag.valuesText = values.join(' + ');
       _.each(this.options, option => {
@@ -132,7 +132,7 @@ export class ValueSelectDropdownCtrl {
     this.highlightIndex = (this.highlightIndex + direction) % this.search.options.length;
   }
 
-  selectValue(option, event, commitChange?, excludeOthers?) {
+  selectValue(option, event, commitChange, excludeOthers) {
     if (!option) {
       return;
     }
@@ -142,7 +142,7 @@ export class ValueSelectDropdownCtrl {
     commitChange = commitChange || false;
     excludeOthers = excludeOthers || false;
 
-    const setAllExceptCurrentTo = newValue => {
+    let setAllExceptCurrentTo = newValue => {
       _.each(this.options, other => {
         if (option !== other) {
           other.selected = newValue;
@@ -246,9 +246,9 @@ export function valueSelectDropdown($compile, $window, $timeout, $rootScope) {
     controllerAs: 'vm',
     bindToController: true,
     link: function(scope, elem) {
-      const bodyEl = angular.element($window.document.body);
-      const linkEl = elem.find('.variable-value-link');
-      const inputEl = elem.find('input');
+      let bodyEl = angular.element($window.document.body);
+      let linkEl = elem.find('.variable-value-link');
+      let inputEl = elem.find('input');
 
       function openDropdown() {
         inputEl.css('width', Math.max(linkEl.width(), 80) + 'px');
@@ -288,7 +288,7 @@ export function valueSelectDropdown($compile, $window, $timeout, $rootScope) {
         }
       });
 
-      const cleanUp = $rootScope.$on('template-variable-value-updated', () => {
+      let cleanUp = $rootScope.$on('template-variable-value-updated', () => {
         scope.vm.updateLinkText();
       });
 

@@ -14,7 +14,7 @@ class Query {
 }
 
 export class ManageDashboardsCtrl {
-  sections: any[];
+  public sections: any[];
 
   query: Query;
   navModel: any;
@@ -103,10 +103,10 @@ export class ManageDashboardsCtrl {
 
     this.sections = result;
 
-    for (const section of this.sections) {
+    for (let section of this.sections) {
       section.checked = false;
 
-      for (const dashboard of section.items) {
+      for (let dashboard of section.items) {
         dashboard.checked = false;
       }
     }
@@ -119,7 +119,7 @@ export class ManageDashboardsCtrl {
   selectionChanged() {
     let selectedDashboards = 0;
 
-    for (const section of this.sections) {
+    for (let section of this.sections) {
       selectedDashboards += _.filter(section.items, { checked: true }).length;
     }
 
@@ -129,7 +129,7 @@ export class ManageDashboardsCtrl {
   }
 
   getFoldersAndDashboardsToDelete() {
-    const selectedDashboards = {
+    let selectedDashboards = {
       folders: [],
       dashboards: [],
     };
@@ -148,7 +148,7 @@ export class ManageDashboardsCtrl {
 
   getFolderIds(sections) {
     const ids = [];
-    for (const s of sections) {
+    for (let s of sections) {
       if (s.checked) {
         ids.push(s.id);
       }
@@ -191,7 +191,7 @@ export class ManageDashboardsCtrl {
   }
 
   getDashboardsToMove() {
-    const selectedDashboards = [];
+    let selectedDashboards = [];
 
     for (const section of this.sections) {
       const selected = _.filter(section.items, { checked: true });
@@ -238,7 +238,7 @@ export class ManageDashboardsCtrl {
   }
 
   onTagFilterChange() {
-    const res = this.filterByTag(this.selectedTagFilter.term);
+    var res = this.filterByTag(this.selectedTagFilter.term);
     this.selectedTagFilter = this.tagFilterOptions[0];
     return res;
   }
@@ -264,7 +264,7 @@ export class ManageDashboardsCtrl {
   }
 
   onSelectAllChanged() {
-    for (const section of this.sections) {
+    for (let section of this.sections) {
       if (!section.hideHeader) {
         section.checked = this.selectAllChecked;
       }

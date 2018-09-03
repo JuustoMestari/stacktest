@@ -1,7 +1,7 @@
 // Based on underscore.js debounce()
 export default function debounce(func, wait) {
   let timeout;
-  return function(this: any) {
+  return function() {
     const context = this;
     const args = arguments;
     const later = function() {

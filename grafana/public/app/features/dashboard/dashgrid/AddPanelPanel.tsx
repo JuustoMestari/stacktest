@@ -68,18 +68,18 @@ export class AddPanelPanel extends React.Component<AddPanelPanelProps, AddPanelP
   }
 
   getCopiedPanelPlugins(filter) {
-    const panels = _.chain(config.panels)
+    let panels = _.chain(config.panels)
       .filter({ hideFromList: false })
       .map(item => item)
       .value();
     let copiedPanels = [];
 
-    const copiedPanelJson = store.get(LS_PANEL_COPY_KEY);
+    let copiedPanelJson = store.get(LS_PANEL_COPY_KEY);
     if (copiedPanelJson) {
-      const copiedPanel = JSON.parse(copiedPanelJson);
-      const pluginInfo = _.find(panels, { id: copiedPanel.type });
+      let copiedPanel = JSON.parse(copiedPanelJson);
+      let pluginInfo = _.find(panels, { id: copiedPanel.type });
       if (pluginInfo) {
-        const pluginCopy = _.cloneDeep(pluginInfo);
+        let pluginCopy = _.cloneDeep(pluginInfo);
         pluginCopy.name = copiedPanel.title;
         pluginCopy.sort = -1;
         pluginCopy.defaults = copiedPanel;
@@ -97,7 +97,7 @@ export class AddPanelPanel extends React.Component<AddPanelPanelProps, AddPanelP
     const dashboard = panelContainer.getDashboard();
     const { gridPos } = this.props.panel;
 
-    const newPanel: any = {
+    var newPanel: any = {
       type: panelPluginInfo.id,
       title: 'Panel Title',
       gridPos: { x: gridPos.x, y: gridPos.y, w: gridPos.w, h: gridPos.h },
@@ -129,7 +129,7 @@ export class AddPanelPanel extends React.Component<AddPanelPanelProps, AddPanelP
   }
 
   renderText(text: string) {
-    const searchWords = this.state.filter.split('');
+    let searchWords = this.state.filter.split('');
     return <Highlighter highlightClassName="highlight-search-match" textToHighlight={text} searchWords={searchWords} />;
   }
 
@@ -156,7 +156,7 @@ export class AddPanelPanel extends React.Component<AddPanelPanelProps, AddPanelP
 
   filterKeyPress(evt) {
     if (evt.key === 'Enter') {
-      const panel = _.head(this.state.panelPlugins);
+      let panel = _.head(this.state.panelPlugins);
       if (panel) {
         this.onAddPanel(panel);
       }
@@ -164,7 +164,7 @@ export class AddPanelPanel extends React.Component<AddPanelPanelProps, AddPanelP
   }
 
   filterPanels(panels, filter) {
-    const regex = new RegExp(filter, 'i');
+    let regex = new RegExp(filter, 'i');
     return panels.filter(panel => {
       return regex.test(panel.name);
     });
@@ -189,12 +189,12 @@ export class AddPanelPanel extends React.Component<AddPanelPanelProps, AddPanelP
   }
 
   render() {
-    const addClass = classNames({
+    let addClass = classNames({
       'active active--panel': this.state.tab === 'Add',
       '': this.state.tab === 'Copy',
     });
 
-    const copyClass = classNames({
+    let copyClass = classNames({
       '': this.state.tab === 'Add',
       'active active--panel': this.state.tab === 'Copy',
     });

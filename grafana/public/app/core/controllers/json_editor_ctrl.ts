@@ -9,7 +9,7 @@ export class JsonEditorCtrl {
     $scope.canCopy = $scope.enableCopy;
 
     $scope.update = function() {
-      const newObject = angular.fromJson($scope.json);
+      var newObject = angular.fromJson($scope.json);
       $scope.updateHandler(newObject, $scope.object);
     };
 

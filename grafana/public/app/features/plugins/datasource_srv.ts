@@ -34,13 +34,13 @@ export class DatasourceSrv {
   }
 
   loadDatasource(name) {
-    const dsConfig = config.datasources[name];
+    var dsConfig = config.datasources[name];
     if (!dsConfig) {
       return this.$q.reject({ message: 'Datasource named ' + name + ' was not found' });
     }
 
-    const deferred = this.$q.defer();
-    const pluginDef = dsConfig.meta;
+    var deferred = this.$q.defer();
+    var pluginDef = dsConfig.meta;
 
     importPluginModule(pluginDef.module)
       .then(plugin => {
@@ -55,7 +55,7 @@ export class DatasourceSrv {
           throw new Error('Plugin module is missing Datasource constructor');
         }
 
-        const instance = this.$injector.instantiate(plugin.Datasource, { instanceSettings: dsConfig });
+        var instance = this.$injector.instantiate(plugin.Datasource, { instanceSettings: dsConfig });
         instance.meta = pluginDef;
         instance.name = name;
         this.datasources[name] = instance;
@@ -73,7 +73,7 @@ export class DatasourceSrv {
   }
 
   getAnnotationSources() {
-    const sources = [];
+    var sources = [];
 
     this.addDataSourceVariables(sources);
 
@@ -86,33 +86,15 @@ export class DatasourceSrv {
     return sources;
   }
 
-  getExploreSources() {
-    const { datasources } = config;
-    const es = Object.keys(datasources)
-      .map(name => datasources[name])
-      .filter(ds => ds.meta && ds.meta.explore);
-    return _.sortBy(es, ['name']);
-  }
-
   getMetricSources(options) {
-    const metricSources = [];
+    var metricSources = [];
 
     _.each(config.datasources, function(value, key) {
       if (value.meta && value.meta.metrics) {
-        let metricSource = { value: key, name: key, meta: value.meta, sort: key };
-
-        //Make sure grafana and mixed are sorted at the bottom
-        if (value.meta.id === 'grafana') {
-          metricSource.sort = String.fromCharCode(253);
-        } else if (value.meta.id === 'mixed') {
-          metricSource.sort = String.fromCharCode(254);
-        }
-
-        metricSources.push(metricSource);
+        metricSources.push({ value: key, name: key, meta: value.meta });
 
         if (key === config.defaultDatasource) {
-          metricSource = { value: null, name: 'default', meta: value.meta, sort: key };
-          metricSources.push(metricSource);
+          metricSources.push({ value: null, name: 'default', meta: value.meta });
         }
       }
     });
@@ -122,10 +104,17 @@ export class DatasourceSrv {
     }
 
     metricSources.sort(function(a, b) {
-      if (a.sort.toLowerCase() > b.sort.toLowerCase()) {
+      // these two should always be at the bottom
+      if (a.meta.id === 'mixed' || a.meta.id === 'grafana') {
         return 1;
       }
-      if (a.sort.toLowerCase() < b.sort.toLowerCase()) {
+      if (b.meta.id === 'mixed' || b.meta.id === 'grafana') {
+        return -1;
+      }
+      if (a.name.toLowerCase() > b.name.toLowerCase()) {
+        return 1;
+      }
+      if (a.name.toLowerCase() < b.name.toLowerCase()) {
         return -1;
       }
       return 0;
@@ -136,26 +125,24 @@ export class DatasourceSrv {
 
   addDataSourceVariables(list) {
     // look for data source variables
-    for (let i = 0; i < this.templateSrv.variables.length; i++) {
-      const variable = this.templateSrv.variables[i];
+    for (var i = 0; i < this.templateSrv.variables.length; i++) {
+      var variable = this.templateSrv.variables[i];
       if (variable.type !== 'datasource') {
         continue;
       }
 
-      let first = variable.current.value;
+      var first = variable.current.value;
       if (first === 'default') {
         first = config.defaultDatasource;
       }
 
-      const ds = config.datasources[first];
+      var ds = config.datasources[first];
 
       if (ds) {
-        const key = `$${variable.name}`;
         list.push({
-          name: key,
-          value: key,
+          name: '$' + variable.name,
+          value: '$' + variable.name,
           meta: ds.meta,
-          sort: key,
         });
       }
     }
@@ -163,4 +150,3 @@ export class DatasourceSrv {
 }
 
 coreModule.service('datasourceSrv', DatasourceSrv);
-export default DatasourceSrv;

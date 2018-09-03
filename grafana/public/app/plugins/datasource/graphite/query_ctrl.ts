@@ -19,7 +19,7 @@ export class GraphiteQueryCtrl extends QueryCtrl {
   supportsTags: boolean;
   paused: boolean;
 
-  /** @ngInject */
+  /** @ngInject **/
   constructor($scope, $injector, private uiSegmentSrv, private templateSrv, $timeout) {
     super($scope, $injector);
     this.supportsTags = this.datasource.supportsTags;
@@ -49,7 +49,7 @@ export class GraphiteQueryCtrl extends QueryCtrl {
       return this.uiSegmentSrv.newSegment(segment);
     });
 
-    const checkOtherSegmentsIndex = this.queryModel.checkOtherSegmentsIndex || 0;
+    let checkOtherSegmentsIndex = this.queryModel.checkOtherSegmentsIndex || 0;
     this.checkOtherSegments(checkOtherSegmentsIndex);
 
     if (this.queryModel.seriesByTagUsed) {
@@ -72,7 +72,7 @@ export class GraphiteQueryCtrl extends QueryCtrl {
       return;
     }
 
-    const path = this.queryModel.getSegmentPathUpTo(fromIndex + 1);
+    var path = this.queryModel.getSegmentPathUpTo(fromIndex + 1);
     if (path === '') {
       return Promise.resolve();
     }
@@ -106,11 +106,11 @@ export class GraphiteQueryCtrl extends QueryCtrl {
   }
 
   getAltSegments(index, prefix) {
-    let query = prefix && prefix.length > 0 ? '*' + prefix + '*' : '*';
+    var query = prefix && prefix.length > 0 ? '*' + prefix + '*' : '*';
     if (index > 0) {
       query = this.queryModel.getSegmentPathUpTo(index) + '.' + query;
     }
-    const options = {
+    var options = {
       range: this.panelCtrl.range,
       requestId: 'get-alt-segments',
     };
@@ -118,7 +118,7 @@ export class GraphiteQueryCtrl extends QueryCtrl {
     return this.datasource
       .metricFindQuery(query, options)
       .then(segments => {
-        const altSegments = _.map(segments, segment => {
+        var altSegments = _.map(segments, segment => {
           return this.uiSegmentSrv.newSegment({
             value: segment.text,
             expandable: segment.expandable,
@@ -195,7 +195,7 @@ export class GraphiteQueryCtrl extends QueryCtrl {
     }
 
     if (segment.type === 'tag') {
-      const tag = removeTagPrefix(segment.value);
+      let tag = removeTagPrefix(segment.value);
       this.pause();
       this.addSeriesByTagFunc(tag);
       return;
@@ -238,7 +238,7 @@ export class GraphiteQueryCtrl extends QueryCtrl {
       return;
     }
 
-    const oldTarget = this.queryModel.target.target;
+    var oldTarget = this.queryModel.target.target;
     this.updateModelTarget();
 
     if (this.queryModel.target !== oldTarget && !this.paused) {
@@ -247,7 +247,7 @@ export class GraphiteQueryCtrl extends QueryCtrl {
   }
 
   addFunction(funcDef) {
-    const newFunc = this.datasource.createFuncInstance(funcDef, {
+    var newFunc = this.datasource.createFuncInstance(funcDef, {
       withDefaultParams: true,
     });
     newFunc.added = true;
@@ -273,10 +273,10 @@ export class GraphiteQueryCtrl extends QueryCtrl {
   }
 
   addSeriesByTagFunc(tag) {
-    const newFunc = this.datasource.createFuncInstance('seriesByTag', {
+    let newFunc = this.datasource.createFuncInstance('seriesByTag', {
       withDefaultParams: false,
     });
-    const tagParam = `${tag}=`;
+    let tagParam = `${tag}=`;
     newFunc.params = [tagParam];
     this.queryModel.addFunction(newFunc);
     newFunc.added = true;
@@ -291,7 +291,7 @@ export class GraphiteQueryCtrl extends QueryCtrl {
       return;
     }
 
-    for (let i = 0; i < this.segments.length; i++) {
+    for (var i = 0; i < this.segments.length; i++) {
       if (this.segments[i].value.indexOf('*') >= 0) {
         func.params[0] = i;
         func.added = false;
@@ -303,23 +303,23 @@ export class GraphiteQueryCtrl extends QueryCtrl {
 
   getAllTags() {
     return this.datasource.getTags().then(values => {
-      const altTags = _.map(values, 'text');
+      let altTags = _.map(values, 'text');
       altTags.splice(0, 0, this.removeTagValue);
       return mapToDropdownOptions(altTags);
     });
   }
 
   getTags(index, tagPrefix) {
-    const tagExpressions = this.queryModel.renderTagExpressions(index);
+    let tagExpressions = this.queryModel.renderTagExpressions(index);
     return this.datasource.getTagsAutoComplete(tagExpressions, tagPrefix).then(values => {
-      const altTags = _.map(values, 'text');
+      let altTags = _.map(values, 'text');
       altTags.splice(0, 0, this.removeTagValue);
       return mapToDropdownOptions(altTags);
     });
   }
 
   getTagsAsSegments(tagPrefix) {
-    const tagExpressions = this.queryModel.renderTagExpressions();
+    let tagExpressions = this.queryModel.renderTagExpressions();
     return this.datasource.getTagsAutoComplete(tagExpressions, tagPrefix).then(values => {
       return _.map(values, val => {
         return this.uiSegmentSrv.newSegment({
@@ -336,18 +336,18 @@ export class GraphiteQueryCtrl extends QueryCtrl {
   }
 
   getAllTagValues(tag) {
-    const tagKey = tag.key;
+    let tagKey = tag.key;
     return this.datasource.getTagValues(tagKey).then(values => {
-      const altValues = _.map(values, 'text');
+      let altValues = _.map(values, 'text');
       return mapToDropdownOptions(altValues);
     });
   }
 
   getTagValues(tag, index, valuePrefix) {
-    const tagExpressions = this.queryModel.renderTagExpressions(index);
-    const tagKey = tag.key;
+    let tagExpressions = this.queryModel.renderTagExpressions(index);
+    let tagKey = tag.key;
     return this.datasource.getTagValuesAutoComplete(tagExpressions, tagKey, valuePrefix).then(values => {
-      const altValues = _.map(values, 'text');
+      let altValues = _.map(values, 'text');
       // Add template variables as additional values
       _.eachRight(this.templateSrv.variables, variable => {
         altValues.push('${' + variable.name + ':regex}');
@@ -362,8 +362,8 @@ export class GraphiteQueryCtrl extends QueryCtrl {
   }
 
   addNewTag(segment) {
-    const newTagKey = segment.value;
-    const newTag = { key: newTagKey, operator: '=', value: '' };
+    let newTagKey = segment.value;
+    let newTag = { key: newTagKey, operator: '=', value: '' };
     this.queryModel.addTag(newTag);
     this.targetChanged();
     this.fixTagSegments();

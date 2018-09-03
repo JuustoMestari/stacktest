@@ -64,12 +64,12 @@ export class Profiler {
       console.log('Dashboard::Performance Total Watchers: ' + this.getTotalWatcherCount());
       console.log('Dashboard::Performance Total ScopeCount: ' + this.scopeCount);
 
-      const timeTaken = this.timings.lastPanelInitializedAt - this.timings.dashboardLoadStart;
+      var timeTaken = this.timings.lastPanelInitializedAt - this.timings.dashboardLoadStart;
       console.log('Dashboard::Performance All panels initialized in ' + timeTaken + ' ms');
 
       // measure digest performance
-      const rootDigestStart = window.performance.now();
-      for (let i = 0; i < 30; i++) {
+      var rootDigestStart = window.performance.now();
+      for (var i = 0; i < 30; i++) {
         this.$rootScope.$apply();
       }
 
@@ -78,11 +78,11 @@ export class Profiler {
   }
 
   getTotalWatcherCount() {
-    let count = 0;
-    let scopes = 0;
-    const root = $(document.getElementsByTagName('body'));
+    var count = 0;
+    var scopes = 0;
+    var root = $(document.getElementsByTagName('body'));
 
-    const f = function(element) {
+    var f = function(element) {
       if (element.data().hasOwnProperty('$scope')) {
         scopes++;
         angular.forEach(element.data().$scope.$$watchers, function() {
@@ -126,5 +126,5 @@ export class Profiler {
   }
 }
 
-const profiler = new Profiler();
+var profiler = new Profiler();
 export { profiler };

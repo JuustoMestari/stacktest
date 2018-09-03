@@ -19,10 +19,12 @@ function grafanaRoutes($routeProvider) {
       controller: 'PlaylistEditCtrl',
     })
     .when('/playlists/play/:id', {
-      template: '',
+      templateUrl: 'public/app/features/playlist/partials/playlists.html',
+      controllerAs: 'ctrl',
+      controller: 'PlaylistsCtrl',
       resolve: {
         init: function(playlistSrv, $route) {
-          const playlistId = $route.current.params.id;
+          let playlistId = $route.current.params.id;
           playlistSrv.start(playlistId);
         },
       },

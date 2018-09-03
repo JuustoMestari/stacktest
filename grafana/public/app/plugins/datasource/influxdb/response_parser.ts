@@ -6,16 +6,16 @@ export default class ResponseParser {
       return [];
     }
 
-    const influxResults = results.results[0];
+    var influxResults = results.results[0];
     if (!influxResults.series) {
       return [];
     }
 
-    const normalizedQuery = query.toLowerCase();
-    const isValueFirst =
+    var normalizedQuery = query.toLowerCase();
+    var isValueFirst =
       normalizedQuery.indexOf('show field keys') >= 0 || normalizedQuery.indexOf('show retention policies') >= 0;
 
-    const res = {};
+    var res = {};
     _.each(influxResults.series, serie => {
       _.each(serie.values, value => {
         if (_.isArray(value)) {

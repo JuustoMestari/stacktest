@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import { coreModule } from 'app/core/core';
 
-const template = `
+var template = `
 <span class="panel-title">
   <span class="icon-gf panel-alert-icon"></span>
   <span class="panel-title-text">{{ctrl.panel.title | interpolateTemplateVars:this}}</span>
@@ -60,7 +60,7 @@ function renderMenuItem(item, ctrl) {
 
   if (item.submenu) {
     html += '<ul class="dropdown-menu dropdown-menu--menu panel-menu">';
-    for (const subitem of item.submenu) {
+    for (let subitem of item.submenu) {
       html += renderMenuItem(subitem, ctrl);
     }
     html += '</ul>';
@@ -73,20 +73,20 @@ function renderMenuItem(item, ctrl) {
 function createMenuTemplate(ctrl) {
   let html = '';
 
-  for (const item of ctrl.getMenu()) {
+  for (let item of ctrl.getMenu()) {
     html += renderMenuItem(item, ctrl);
   }
 
   return html;
 }
 
-/** @ngInject */
+/** @ngInject **/
 function panelHeader($compile) {
   return {
     restrict: 'E',
     template: template,
     link: function(scope, elem, attrs) {
-      const menuElem = elem.find('.panel-menu');
+      let menuElem = elem.find('.panel-menu');
       let menuScope;
       let isDragged;
 
@@ -99,7 +99,7 @@ function panelHeader($compile) {
         }
 
         menuScope = scope.$new();
-        const menuHtml = createMenuTemplate(scope.ctrl);
+        let menuHtml = createMenuTemplate(scope.ctrl);
         menuElem.html(menuHtml);
         $compile(menuElem)(menuScope);
 
@@ -132,12 +132,12 @@ function panelHeader($compile) {
           .find('[data-toggle=dropdown]')
           .parentsUntil('.panel')
           .parent();
-        const menuElem = elem.find('[data-toggle=dropdown]').parent();
+        let menuElem = elem.find('[data-toggle=dropdown]').parent();
         panelElem = panelElem && panelElem.length ? panelElem[0] : undefined;
         if (panelElem) {
           panelElem = $(panelElem);
           $(panelGridClass).removeClass(menuOpenClass);
-          const state = !menuElem.hasClass('open');
+          let state = !menuElem.hasClass('open');
           panelElem.toggleClass(menuOpenClass, state);
         }
       }

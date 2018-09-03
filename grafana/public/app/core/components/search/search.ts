@@ -159,7 +159,7 @@ export class SearchCtrl {
 
   searchDashboards() {
     this.currentSearchId = this.currentSearchId + 1;
-    const localSearchId = this.currentSearchId;
+    var localSearchId = this.currentSearchId;
 
     return this.searchSrv.search(this.query).then(results => {
       if (localSearchId < this.currentSearchId) {
@@ -172,7 +172,7 @@ export class SearchCtrl {
   }
 
   queryHasNoFilters() {
-    const query = this.query;
+    var query = this.query;
     return query.query === '' && query.starred === false && query.tag.length === 0;
   }
 

@@ -6,12 +6,12 @@ import { SpectrumPicker } from './SpectrumPicker';
 
 const DEFAULT_COLOR = '#000000';
 
-export interface Props {
+export interface IProps {
   color: string;
   onColorSelect: (c: string) => void;
 }
 
-export class ColorPickerPopover extends React.Component<Props, any> {
+export class ColorPickerPopover extends React.Component<IProps, any> {
   pickerNavElem: any;
 
   constructor(props) {
@@ -19,7 +19,7 @@ export class ColorPickerPopover extends React.Component<Props, any> {
     this.state = {
       tab: 'palette',
       color: this.props.color || DEFAULT_COLOR,
-      colorString: this.props.color || DEFAULT_COLOR,
+      colorString: this.props.color || DEFAULT_COLOR
     };
   }
 
@@ -28,11 +28,11 @@ export class ColorPickerPopover extends React.Component<Props, any> {
   }
 
   setColor(color) {
-    const newColor = tinycolor(color);
+    let newColor = tinycolor(color);
     if (newColor.isValid()) {
       this.setState({
         color: newColor.toString(),
-        colorString: newColor.toString(),
+        colorString: newColor.toString()
       });
       this.props.onColorSelect(color);
     }
@@ -43,20 +43,20 @@ export class ColorPickerPopover extends React.Component<Props, any> {
   }
 
   spectrumColorSelected(color) {
-    const rgbColor = color.toRgbString();
+    let rgbColor = color.toRgbString();
     this.setColor(rgbColor);
   }
 
   onColorStringChange(e) {
-    const colorString = e.target.value;
+    let colorString = e.target.value;
     this.setState({
-      colorString: colorString,
+      colorString: colorString
     });
 
-    const newColor = tinycolor(colorString);
+    let newColor = tinycolor(colorString);
     if (newColor.isValid()) {
       // Update only color state
-      const newColorString = newColor.toString();
+      let newColorString = newColor.toString();
       this.setState({
         color: newColorString,
       });
@@ -65,17 +65,17 @@ export class ColorPickerPopover extends React.Component<Props, any> {
   }
 
   onColorStringBlur(e) {
-    const colorString = e.target.value;
+    let colorString = e.target.value;
     this.setColor(colorString);
   }
 
   componentDidMount() {
     this.pickerNavElem.find('li:first').addClass('active');
-    this.pickerNavElem.on('show', e => {
+    this.pickerNavElem.on('show', (e) => {
       // use href attr (#name => name)
-      const tab = e.target.hash.slice(1);
+      let tab = e.target.hash.slice(1);
       this.setState({
-        tab: tab,
+        tab: tab
       });
     });
   }
@@ -97,24 +97,19 @@ export class ColorPickerPopover extends React.Component<Props, any> {
       <div className="gf-color-picker">
         <ul className="nav nav-tabs" id="colorpickernav" ref={this.setPickerNavElem.bind(this)}>
           <li className="gf-tabs-item-colorpicker">
-            <a href="#palette" data-toggle="tab">
-              Colors
-            </a>
+            <a href="#palette" data-toggle="tab">Colors</a>
           </li>
           <li className="gf-tabs-item-colorpicker">
-            <a href="#spectrum" data-toggle="tab">
-              Custom
-            </a>
+            <a href="#spectrum" data-toggle="tab">Custom</a>
           </li>
         </ul>
-        <div className="gf-color-picker__body">{currentTab}</div>
+        <div className="gf-color-picker__body">
+          {currentTab}
+        </div>
         <div>
-          <input
-            className="gf-form-input gf-form-input--small"
-            value={this.state.colorString}
-            onChange={this.onColorStringChange.bind(this)}
-            onBlur={this.onColorStringBlur.bind(this)}
-          />
+          <input className="gf-form-input gf-form-input--small" value={this.state.colorString}
+            onChange={this.onColorStringChange.bind(this)} onBlur={this.onColorStringBlur.bind(this)}>
+          </input>
         </div>
       </div>
     );

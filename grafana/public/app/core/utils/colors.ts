@@ -9,7 +9,7 @@ export const ALERTING_COLOR = 'rgba(237, 46, 24, 1)';
 export const NO_DATA_COLOR = 'rgba(150, 150, 150, 1)';
 export const REGION_FILL_ALPHA = 0.09;
 
-const colors = [
+let colors = [
   '#7EB26D',
   '#EAB839',
   '#6ED0E0',
@@ -69,7 +69,7 @@ const colors = [
 ];
 
 export function sortColorsByHue(hexColors) {
-  const hslColors = _.map(hexColors, hexToHsl);
+  let hslColors = _.map(hexColors, hexToHsl);
 
   let sortedHSLColors = _.sortBy(hslColors, ['h']);
   sortedHSLColors = _.chunk(sortedHSLColors, PALETTE_ROWS);

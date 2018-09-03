@@ -3,9 +3,9 @@ import $ from 'jquery';
 import Drop from 'tether-drop';
 import baron from 'baron';
 
-const module = angular.module('grafana.directives');
+var module = angular.module('grafana.directives');
 
-const panelTemplate = `
+var panelTemplate = `
   <div class="panel-container">
     <div class="panel-header" ng-class="{'grid-drag-handle': !ctrl.fullscreen}">
       <span class="panel-info-corner">
@@ -61,19 +61,19 @@ module.directive('grafanaPanel', function($rootScope, $document, $timeout) {
     transclude: true,
     scope: { ctrl: '=' },
     link: function(scope, elem) {
-      const panelContainer = elem.find('.panel-container');
-      const panelContent = elem.find('.panel-content');
-      const cornerInfoElem = elem.find('.panel-info-corner');
-      const ctrl = scope.ctrl;
-      let infoDrop;
-      let panelScrollbar;
+      var panelContainer = elem.find('.panel-container');
+      var panelContent = elem.find('.panel-content');
+      var cornerInfoElem = elem.find('.panel-info-corner');
+      var ctrl = scope.ctrl;
+      var infoDrop;
+      var panelScrollbar;
 
       // the reason for handling these classes this way is for performance
       // limit the watchers on panels etc
-      let transparentLastState = false;
-      let lastHasAlertRule = false;
-      let lastAlertState;
-      let hasAlertRule;
+      var transparentLastState = false;
+      var lastHasAlertRule = false;
+      var lastAlertState;
+      var hasAlertRule;
 
       function mouseEnter() {
         panelContainer.toggleClass('panel-hover-highlight', true);
@@ -112,8 +112,8 @@ module.directive('grafanaPanel', function($rootScope, $document, $timeout) {
             </div>
           `;
 
-          const scrollRoot = panelContent;
-          const scroller = panelContent.find(':first').find(':first');
+          let scrollRoot = panelContent;
+          let scroller = panelContent.find(':first').find(':first');
 
           scrollRoot.addClass(scrollRootClass);
           $(scrollBarHTML).appendTo(scrollRoot);
@@ -174,7 +174,7 @@ module.directive('grafanaPanel', function($rootScope, $document, $timeout) {
       });
 
       function updatePanelCornerInfo() {
-        const cornerMode = ctrl.getInfoMode();
+        var cornerMode = ctrl.getInfoMode();
         cornerInfoElem[0].className = 'panel-info-corner panel-info-corner--' + cornerMode;
 
         if (cornerMode) {

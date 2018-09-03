@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import appEvents from 'app/core/app_events';
 import { toJS } from 'mobx';
 
-export interface Props {
+export interface IProps {
   model: NavModel;
 }
 
@@ -15,8 +15,8 @@ const SelectNav = ({ main, customCss }: { main: NavModelItem; customCss: string 
   });
 
   const gotoUrl = evt => {
-    const element = evt.target;
-    const url = element.options[element.selectedIndex].value;
+    var element = evt.target;
+    var url = element.options[element.selectedIndex].value;
     appEvents.emit('location-change', { href: url });
   };
 
@@ -82,7 +82,7 @@ const Navigation = ({ main }: { main: NavModelItem }) => {
 };
 
 @observer
-export default class PageHeader extends React.Component<Props, any> {
+export default class PageHeader extends React.Component<IProps, any> {
   constructor(props) {
     super(props);
   }

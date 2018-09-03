@@ -6,7 +6,7 @@ export class PostgresDatasource {
   name: any;
   responseParser: ResponseParser;
 
-  /** @ngInject */
+  /** @ngInject **/
   constructor(instanceSettings, private backendSrv, private $q, private templateSrv) {
     this.name = instanceSettings.name;
     this.id = instanceSettings.id;
@@ -16,7 +16,7 @@ export class PostgresDatasource {
   interpolateVariable(value, variable) {
     if (typeof value === 'string') {
       if (variable.multi || variable.includeAll) {
-        return "'" + value.replace(/'/g, `''`) + "'";
+        return "'" + value + "'";
       } else {
         return value;
       }
@@ -26,14 +26,14 @@ export class PostgresDatasource {
       return value;
     }
 
-    const quotedValues = _.map(value, function(val) {
-      return "'" + val.replace(/'/g, `''`) + "'";
+    var quotedValues = _.map(value, function(val) {
+      return "'" + val + "'";
     });
     return quotedValues.join(',');
   }
 
   query(options) {
-    const queries = _.filter(options.targets, item => {
+    var queries = _.filter(options.targets, item => {
       return item.hide !== true;
     }).map(item => {
       return {
@@ -103,7 +103,7 @@ export class PostgresDatasource {
       format: 'table',
     };
 
-    const data = {
+    var data = {
       queries: [interpolatedQuery],
     };
 
@@ -124,7 +124,25 @@ export class PostgresDatasource {
   }
 
   testDatasource() {
-    return this.metricFindQuery('SELECT 1', {})
+    return this.backendSrv
+      .datasourceRequest({
+        url: '/api/tsdb/query',
+        method: 'POST',
+        data: {
+          from: '5m',
+          to: 'now',
+          queries: [
+            {
+              refId: 'A',
+              intervalMs: 1,
+              maxDataPoints: 1,
+              datasourceId: this.id,
+              rawSql: 'SELECT 1',
+              format: 'table',
+            },
+          ],
+        },
+      })
       .then(res => {
         return { status: 'success', message: 'Database Connection OK' };
       })

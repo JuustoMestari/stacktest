@@ -38,17 +38,17 @@ export class NavModelSrv {
   }
 
   getNav(...args) {
-    let children = this.navItems;
-    const nav = new NavModel();
+    var children = this.navItems;
+    var nav = new NavModel();
 
-    for (const id of args) {
+    for (let id of args) {
       // if its a number then it's the index to use for main
       if (_.isNumber(id)) {
         nav.main = nav.breadcrumbs[id];
         break;
       }
 
-      const node = _.find(children, { id: id });
+      let node = _.find(children, { id: id });
       nav.breadcrumbs.push(node);
       nav.node = node;
       nav.main = node;
@@ -56,7 +56,7 @@ export class NavModelSrv {
     }
 
     if (nav.main.children) {
-      for (const item of nav.main.children) {
+      for (let item of nav.main.children) {
         item.active = false;
 
         if (item.url === nav.node.url) {
@@ -69,7 +69,7 @@ export class NavModelSrv {
   }
 
   getNotFoundNav() {
-    const node = {
+    var node = {
       text: 'Page not found',
       icon: 'fa fa-fw fa-warning',
       subTitle: '404 Error',

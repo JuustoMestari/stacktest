@@ -7,10 +7,10 @@ export const backendSrv = {
 };
 
 export function createNavTree(...args) {
-  const root = [];
+  let root = [];
   let node = root;
-  for (const arg of args) {
-    const child = { id: arg, url: `/url/${arg}`, text: `${arg}-Text`, children: [] };
+  for (let arg of args) {
+    let child = { id: arg, url: `/url/${arg}`, text: `${arg}-Text`, children: [] };
     node.push(child);
     node = child.children;
   }

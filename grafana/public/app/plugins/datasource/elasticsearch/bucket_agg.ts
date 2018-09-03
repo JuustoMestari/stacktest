@@ -19,7 +19,7 @@ export function elasticBucketAgg() {
 export class ElasticBucketAggCtrl {
   /** @nginject */
   constructor($scope, uiSegmentSrv, $q, $rootScope) {
-    const bucketAggs = $scope.target.bucketAggs;
+    var bucketAggs = $scope.target.bucketAggs;
 
     $scope.orderByOptions = [];
 
@@ -84,8 +84,8 @@ export class ElasticBucketAggCtrl {
       $scope.isFirst = $scope.index === 0;
       $scope.bucketAggCount = bucketAggs.length;
 
-      let settingsLinkText = '';
-      const settings = $scope.agg.settings || {};
+      var settingsLinkText = '';
+      var settings = $scope.agg.settings || {};
 
       switch ($scope.agg.type) {
         case 'terms': {
@@ -198,14 +198,14 @@ export class ElasticBucketAggCtrl {
 
     $scope.addBucketAgg = function() {
       // if last is date histogram add it before
-      const lastBucket = bucketAggs[bucketAggs.length - 1];
-      let addIndex = bucketAggs.length - 1;
+      var lastBucket = bucketAggs[bucketAggs.length - 1];
+      var addIndex = bucketAggs.length - 1;
 
       if (lastBucket && lastBucket.type === 'date_histogram') {
         addIndex -= 1;
       }
 
-      const id = _.reduce(
+      var id = _.reduce(
         $scope.target.bucketAggs.concat($scope.target.metrics),
         function(max, val) {
           return parseInt(val.id) > max ? parseInt(val.id) : max;
@@ -226,6 +226,6 @@ export class ElasticBucketAggCtrl {
   }
 }
 
-const module = angular.module('grafana.directives');
+var module = angular.module('grafana.directives');
 module.directive('elasticBucketAgg', elasticBucketAgg);
 module.controller('ElasticBucketAggCtrl', ElasticBucketAggCtrl);

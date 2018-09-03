@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
 
-export function Parser(this: any, expression) {
+export function Parser(expression) {
   this.expression = expression;
   this.lexer = new Lexer(expression);
   this.tokens = this.lexer.tokenize();
@@ -26,7 +26,7 @@ Parser.prototype = {
 
   curlyBraceSegment: function() {
     if (this.match('identifier', '{') || this.match('{')) {
-      let curlySegment = '';
+      var curlySegment = '';
 
       while (!this.match('') && !this.match('}')) {
         curlySegment += this.consumeToken().value;
@@ -54,14 +54,14 @@ Parser.prototype = {
   },
 
   metricSegment: function() {
-    const curly = this.curlyBraceSegment();
+    var curly = this.curlyBraceSegment();
     if (curly) {
       return curly;
     }
 
     if (this.match('identifier') || this.match('number')) {
       // hack to handle float numbers in metric segments
-      const parts = this.consumeToken().value.split('.');
+      var parts = this.consumeToken().value.split('.');
       if (parts.length === 2) {
         this.tokens.splice(this.index, 0, { type: '.' });
         this.tokens.splice(this.index + 1, 0, {
@@ -86,7 +86,7 @@ Parser.prototype = {
       this.errorMark('Expected identifier after templateStart');
     }
 
-    const node = {
+    var node = {
       type: 'template',
       value: this.consumeToken().value,
     };
@@ -104,7 +104,7 @@ Parser.prototype = {
       return null;
     }
 
-    const node = {
+    var node = {
       type: 'metric',
       segments: [],
     };
@@ -114,7 +114,7 @@ Parser.prototype = {
     while (this.match('.')) {
       this.consumeToken();
 
-      const segment = this.metricSegment();
+      var segment = this.metricSegment();
       if (!segment) {
         this.errorMark('Expected metric identifier');
       }
@@ -130,7 +130,7 @@ Parser.prototype = {
       return null;
     }
 
-    const node: any = {
+    var node: any = {
       type: 'function',
       name: this.consumeToken().value,
     };
@@ -165,7 +165,7 @@ Parser.prototype = {
       return [];
     }
 
-    const param =
+    var param =
       this.functionCall() ||
       this.numericLiteral() ||
       this.seriesRefExpression() ||
@@ -186,12 +186,12 @@ Parser.prototype = {
       return null;
     }
 
-    const value = this.tokens[this.index].value;
+    var value = this.tokens[this.index].value;
     if (!value.match(/\#[A-Z]/)) {
       return null;
     }
 
-    const token = this.consumeToken();
+    var token = this.consumeToken();
 
     return {
       type: 'series-ref',
@@ -215,7 +215,7 @@ Parser.prototype = {
       return null;
     }
 
-    const token = this.consumeToken();
+    var token = this.consumeToken();
     if (token.isUnclosed) {
       throw { message: 'Unclosed string parameter', pos: token.pos };
     }
@@ -227,8 +227,8 @@ Parser.prototype = {
   },
 
   errorMark: function(text) {
-    const currentToken = this.tokens[this.index];
-    const type = currentToken ? currentToken.type : 'end of string';
+    var currentToken = this.tokens[this.index];
+    var type = currentToken ? currentToken.type : 'end of string';
     throw {
       message: text + ' instead found ' + type,
       pos: currentToken ? currentToken.pos : this.lexer.char,
@@ -242,7 +242,7 @@ Parser.prototype = {
   },
 
   matchToken: function(type, index) {
-    const token = this.tokens[this.index + index];
+    var token = this.tokens[this.index + index];
     return (token === undefined && type === '') || (token && token.type === type);
   },
 

@@ -4,8 +4,8 @@ import * as dateMath from 'app/core/utils/datemath';
 import { angularMocks, sinon } from '../lib/common';
 import { PanelModel } from 'app/features/dashboard/panel_model';
 
-export function ControllerTestContext(this: any) {
-  const self = this;
+export function ControllerTestContext() {
+  var self = this;
 
   this.datasource = {};
   this.$element = {};
@@ -58,7 +58,7 @@ export function ControllerTestContext(this: any) {
       $rootScope.onAppEvent = sinon.spy();
       $rootScope.colors = [];
 
-      for (let i = 0; i < 50; i++) {
+      for (var i = 0; i < 50; i++) {
         $rootScope.colors.push('#' + i);
       }
 
@@ -88,7 +88,7 @@ export function ControllerTestContext(this: any) {
       self.scope.onAppEvent = sinon.spy();
 
       $rootScope.colors = [];
-      for (let i = 0; i < 50; i++) {
+      for (var i = 0; i < 50; i++) {
         $rootScope.colors.push('#' + i);
       }
 
@@ -106,8 +106,8 @@ export function ControllerTestContext(this: any) {
   };
 }
 
-export function ServiceTestContext(this: any) {
-  const self = this;
+export function ServiceTestContext() {
+  var self = this;
   self.templateSrv = new TemplateSrvStub();
   self.timeSrv = new TimeSrvStub();
   self.datasourceSrv = {};
@@ -138,11 +138,11 @@ export function ServiceTestContext(this: any) {
   };
 }
 
-export function DashboardViewStateStub(this: any) {
+export function DashboardViewStateStub() {
   this.registerPanel = function() {};
 }
 
-export function TimeSrvStub(this: any) {
+export function TimeSrvStub() {
   this.init = sinon.spy();
   this.time = { from: 'now-1h', to: 'now' };
   this.timeRange = function(parse) {
@@ -164,13 +164,13 @@ export function TimeSrvStub(this: any) {
   };
 }
 
-export function ContextSrvStub(this: any) {
+export function ContextSrvStub() {
   this.hasRole = function() {
     return true;
   };
 }
 
-export function TemplateSrvStub(this: any) {
+export function TemplateSrvStub() {
   this.variables = [];
   this.templateSettings = { interpolate: /\[\[([\s\S]+?)\]\]/g };
   this.data = {};
@@ -195,13 +195,13 @@ export function TemplateSrvStub(this: any) {
   };
 }
 
-const allDeps = {
-  ContextSrvStub,
-  TemplateSrvStub,
-  TimeSrvStub,
-  ControllerTestContext,
-  ServiceTestContext,
-  DashboardViewStateStub,
+var allDeps = {
+  ContextSrvStub: ContextSrvStub,
+  TemplateSrvStub: TemplateSrvStub,
+  TimeSrvStub: TimeSrvStub,
+  ControllerTestContext: ControllerTestContext,
+  ServiceTestContext: ServiceTestContext,
+  DashboardViewStateStub: DashboardViewStateStub,
 };
 
 // for legacy

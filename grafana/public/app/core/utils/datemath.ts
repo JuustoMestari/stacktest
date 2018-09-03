@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-const units = ['y', 'M', 'w', 'd', 'h', 'm', 's'];
+var units = ['y', 'M', 'w', 'd', 'h', 'm', 's'];
 
 export function parse(text, roundUp?, timezone?) {
   if (!text) {
@@ -14,10 +14,10 @@ export function parse(text, roundUp?, timezone?) {
     return moment(text);
   }
 
-  let time;
-  let mathString = '';
-  let index;
-  let parseString;
+  var time;
+  var mathString = '';
+  var index;
+  var parseString;
 
   if (text.substring(0, 3) === 'now') {
     if (timezone === 'utc') {
@@ -47,7 +47,7 @@ export function parse(text, roundUp?, timezone?) {
 }
 
 export function isValid(text) {
-  const date = parse(text);
+  var date = parse(text);
   if (!date) {
     return false;
   }
@@ -60,15 +60,15 @@ export function isValid(text) {
 }
 
 export function parseDateMath(mathString, time, roundUp?) {
-  const dateTime = time;
-  let i = 0;
-  const len = mathString.length;
+  var dateTime = time;
+  var i = 0;
+  var len = mathString.length;
 
   while (i < len) {
-    const c = mathString.charAt(i++);
-    let type;
-    let num;
-    let unit;
+    var c = mathString.charAt(i++);
+    var type;
+    var num;
+    var unit;
 
     if (c === '/') {
       type = 0;
@@ -85,7 +85,7 @@ export function parseDateMath(mathString, time, roundUp?) {
     } else if (mathString.length === 2) {
       num = mathString.charAt(i);
     } else {
-      const numFrom = i;
+      var numFrom = i;
       while (!isNaN(mathString.charAt(i))) {
         i++;
         if (i > 10) {

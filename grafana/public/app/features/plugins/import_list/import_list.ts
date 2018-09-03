@@ -45,7 +45,7 @@ export class DashImportListCtrl {
   }
 
   import(dash, overwrite) {
-    const installCmd = {
+    var installCmd = {
       pluginId: this.plugin.id,
       path: dash.path,
       overwrite: overwrite,

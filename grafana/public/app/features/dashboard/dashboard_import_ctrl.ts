@@ -51,8 +51,8 @@ export class DashboardImportCtrl {
     this.inputs = [];
 
     if (this.dash.__inputs) {
-      for (const input of this.dash.__inputs) {
-        const inputModel = {
+      for (let input of this.dash.__inputs) {
+        var inputModel = {
           name: input.name,
           label: input.label,
           info: input.description,
@@ -78,7 +78,7 @@ export class DashboardImportCtrl {
   }
 
   setDatasourceOptions(input, inputModel) {
-    const sources = _.filter(config.datasources, val => {
+    var sources = _.filter(config.datasources, val => {
       return val.type === input.pluginId;
     });
 
@@ -95,7 +95,7 @@ export class DashboardImportCtrl {
 
   inputValueChanged() {
     this.inputsValid = true;
-    for (const input of this.inputs) {
+    for (let input of this.inputs) {
       if (!input.value) {
         this.inputsValid = false;
       }
@@ -162,7 +162,7 @@ export class DashboardImportCtrl {
   }
 
   saveDashboard() {
-    const inputs = this.inputs.map(input => {
+    var inputs = this.inputs.map(input => {
       return {
         name: input.name,
         type: input.type,
@@ -186,7 +186,7 @@ export class DashboardImportCtrl {
   loadJsonText() {
     try {
       this.parseError = '';
-      const dash = JSON.parse(this.jsonText);
+      var dash = JSON.parse(this.jsonText);
       this.onUpload(dash);
     } catch (err) {
       console.log(err);
@@ -198,8 +198,8 @@ export class DashboardImportCtrl {
   checkGnetDashboard() {
     this.gnetError = '';
 
-    const match = /(^\d+$)|dashboards\/(\d+)/.exec(this.gnetUrl);
-    let dashboardId;
+    var match = /(^\d+$)|dashboards\/(\d+)/.exec(this.gnetUrl);
+    var dashboardId;
 
     if (match && match[1]) {
       dashboardId = match[1];

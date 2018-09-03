@@ -6,7 +6,7 @@ import { contextSrv } from 'app/core/core';
 import { tickStep } from 'app/core/utils/ticks';
 import { getColorScale, getOpacityScale } from './color_scale';
 
-const module = angular.module('grafana.directives');
+let module = angular.module('grafana.directives');
 
 const LEGEND_HEIGHT_PX = 6;
 const LEGEND_WIDTH_PX = 100;
@@ -21,8 +21,8 @@ module.directive('colorLegend', function() {
     restrict: 'E',
     template: '<div class="heatmap-color-legend"><svg width="16.5rem" height="24px"></svg></div>',
     link: function(scope, elem, attrs) {
-      const ctrl = scope.ctrl;
-      const panel = scope.ctrl.panel;
+      let ctrl = scope.ctrl;
+      let panel = scope.ctrl.panel;
 
       render();
 
@@ -31,17 +31,17 @@ module.directive('colorLegend', function() {
       });
 
       function render() {
-        const legendElem = $(elem).find('svg');
-        const legendWidth = Math.floor(legendElem.outerWidth());
+        let legendElem = $(elem).find('svg');
+        let legendWidth = Math.floor(legendElem.outerWidth());
 
         if (panel.color.mode === 'spectrum') {
-          const colorScheme = _.find(ctrl.colorSchemes, {
+          let colorScheme = _.find(ctrl.colorSchemes, {
             value: panel.color.colorScheme,
           });
-          const colorScale = getColorScale(colorScheme, contextSrv.user.lightTheme, legendWidth);
+          let colorScale = getColorScale(colorScheme, contextSrv.user.lightTheme, legendWidth);
           drawSimpleColorLegend(elem, colorScale);
         } else if (panel.color.mode === 'opacity') {
-          const colorOptions = panel.color;
+          let colorOptions = panel.color;
           drawSimpleOpacityLegend(elem, colorOptions);
         }
       }
@@ -57,8 +57,8 @@ module.directive('heatmapLegend', function() {
     restrict: 'E',
     template: `<div class="heatmap-color-legend"><svg width="${LEGEND_WIDTH_PX}px" height="${LEGEND_HEIGHT_PX}px"></svg></div>`,
     link: function(scope, elem, attrs) {
-      const ctrl = scope.ctrl;
-      const panel = scope.ctrl.panel;
+      let ctrl = scope.ctrl;
+      let panel = scope.ctrl.panel;
 
       render();
       ctrl.events.on('render', function() {
@@ -68,18 +68,18 @@ module.directive('heatmapLegend', function() {
       function render() {
         clearLegend(elem);
         if (!_.isEmpty(ctrl.data) && !_.isEmpty(ctrl.data.cards)) {
-          const rangeFrom = 0;
-          const rangeTo = ctrl.data.cardStats.max;
-          const maxValue = panel.color.max || rangeTo;
-          const minValue = panel.color.min || 0;
+          let rangeFrom = 0;
+          let rangeTo = ctrl.data.cardStats.max;
+          let maxValue = panel.color.max || rangeTo;
+          let minValue = panel.color.min || 0;
 
           if (panel.color.mode === 'spectrum') {
-            const colorScheme = _.find(ctrl.colorSchemes, {
+            let colorScheme = _.find(ctrl.colorSchemes, {
               value: panel.color.colorScheme,
             });
             drawColorLegend(elem, colorScheme, rangeFrom, rangeTo, maxValue, minValue);
           } else if (panel.color.mode === 'opacity') {
-            const colorOptions = panel.color;
+            let colorOptions = panel.color;
             drawOpacityLegend(elem, colorOptions, rangeFrom, rangeTo, maxValue, minValue);
           }
         }
@@ -89,21 +89,21 @@ module.directive('heatmapLegend', function() {
 });
 
 function drawColorLegend(elem, colorScheme, rangeFrom, rangeTo, maxValue, minValue) {
-  const legendElem = $(elem).find('svg');
-  const legend = d3.select(legendElem.get(0));
+  let legendElem = $(elem).find('svg');
+  let legend = d3.select(legendElem.get(0));
   clearLegend(elem);
 
-  const legendWidth = Math.floor(legendElem.outerWidth()) - 30;
-  const legendHeight = legendElem.attr('height');
+  let legendWidth = Math.floor(legendElem.outerWidth()) - 30;
+  let legendHeight = legendElem.attr('height');
 
   let rangeStep = 1;
   if (rangeTo - rangeFrom > legendWidth) {
     rangeStep = Math.floor((rangeTo - rangeFrom) / legendWidth);
   }
-  const widthFactor = legendWidth / (rangeTo - rangeFrom);
-  const valuesRange = d3.range(rangeFrom, rangeTo, rangeStep);
+  let widthFactor = legendWidth / (rangeTo - rangeFrom);
+  let valuesRange = d3.range(rangeFrom, rangeTo, rangeStep);
 
-  const colorScale = getColorScale(colorScheme, contextSrv.user.lightTheme, maxValue, minValue);
+  let colorScale = getColorScale(colorScheme, contextSrv.user.lightTheme, maxValue, minValue);
   legend
     .selectAll('.heatmap-color-legend-rect')
     .data(valuesRange)
@@ -120,21 +120,21 @@ function drawColorLegend(elem, colorScheme, rangeFrom, rangeTo, maxValue, minVal
 }
 
 function drawOpacityLegend(elem, options, rangeFrom, rangeTo, maxValue, minValue) {
-  const legendElem = $(elem).find('svg');
-  const legend = d3.select(legendElem.get(0));
+  let legendElem = $(elem).find('svg');
+  let legend = d3.select(legendElem.get(0));
   clearLegend(elem);
 
-  const legendWidth = Math.floor(legendElem.outerWidth()) - 30;
-  const legendHeight = legendElem.attr('height');
+  let legendWidth = Math.floor(legendElem.outerWidth()) - 30;
+  let legendHeight = legendElem.attr('height');
 
   let rangeStep = 1;
   if (rangeTo - rangeFrom > legendWidth) {
     rangeStep = Math.floor((rangeTo - rangeFrom) / legendWidth);
   }
-  const widthFactor = legendWidth / (rangeTo - rangeFrom);
-  const valuesRange = d3.range(rangeFrom, rangeTo, rangeStep);
+  let widthFactor = legendWidth / (rangeTo - rangeFrom);
+  let valuesRange = d3.range(rangeFrom, rangeTo, rangeStep);
 
-  const opacityScale = getOpacityScale(options, maxValue, minValue);
+  let opacityScale = getOpacityScale(options, maxValue, minValue);
   legend
     .selectAll('.heatmap-opacity-legend-rect')
     .data(valuesRange)
@@ -152,27 +152,27 @@ function drawOpacityLegend(elem, options, rangeFrom, rangeTo, maxValue, minValue
 }
 
 function drawLegendValues(elem, colorScale, rangeFrom, rangeTo, maxValue, minValue, legendWidth) {
-  const legendElem = $(elem).find('svg');
-  const legend = d3.select(legendElem.get(0));
+  let legendElem = $(elem).find('svg');
+  let legend = d3.select(legendElem.get(0));
 
   if (legendWidth <= 0 || legendElem.get(0).childNodes.length === 0) {
     return;
   }
 
-  const legendValueScale = d3
+  let legendValueScale = d3
     .scaleLinear()
     .domain([0, rangeTo])
     .range([0, legendWidth]);
 
-  const ticks = buildLegendTicks(0, rangeTo, maxValue, minValue);
-  const xAxis = d3
+  let ticks = buildLegendTicks(0, rangeTo, maxValue, minValue);
+  let xAxis = d3
     .axisBottom(legendValueScale)
     .tickValues(ticks)
     .tickSize(LEGEND_TICK_SIZE);
 
-  const colorRect = legendElem.find(':first-child');
-  const posY = getSvgElemHeight(legendElem) + LEGEND_VALUE_MARGIN;
-  const posX = getSvgElemX(colorRect);
+  let colorRect = legendElem.find(':first-child');
+  let posY = getSvgElemHeight(legendElem) + LEGEND_VALUE_MARGIN;
+  let posX = getSvgElemX(colorRect);
 
   d3
     .select(legendElem.get(0))
@@ -188,19 +188,19 @@ function drawLegendValues(elem, colorScale, rangeFrom, rangeTo, maxValue, minVal
 }
 
 function drawSimpleColorLegend(elem, colorScale) {
-  const legendElem = $(elem).find('svg');
+  let legendElem = $(elem).find('svg');
   clearLegend(elem);
 
-  const legendWidth = Math.floor(legendElem.outerWidth());
-  const legendHeight = legendElem.attr('height');
+  let legendWidth = Math.floor(legendElem.outerWidth());
+  let legendHeight = legendElem.attr('height');
 
   if (legendWidth) {
-    const valuesNumber = Math.floor(legendWidth / 2);
-    const rangeStep = Math.floor(legendWidth / valuesNumber);
-    const valuesRange = d3.range(0, legendWidth, rangeStep);
+    let valuesNumber = Math.floor(legendWidth / 2);
+    let rangeStep = Math.floor(legendWidth / valuesNumber);
+    let valuesRange = d3.range(0, legendWidth, rangeStep);
 
-    const legend = d3.select(legendElem.get(0));
-    const legendRects = legend.selectAll('.heatmap-color-legend-rect').data(valuesRange);
+    let legend = d3.select(legendElem.get(0));
+    var legendRects = legend.selectAll('.heatmap-color-legend-rect').data(valuesRange);
 
     legendRects
       .enter()
@@ -215,12 +215,12 @@ function drawSimpleColorLegend(elem, colorScale) {
 }
 
 function drawSimpleOpacityLegend(elem, options) {
-  const legendElem = $(elem).find('svg');
+  let legendElem = $(elem).find('svg');
   clearLegend(elem);
 
-  const legend = d3.select(legendElem.get(0));
-  const legendWidth = Math.floor(legendElem.outerWidth());
-  const legendHeight = legendElem.attr('height');
+  let legend = d3.select(legendElem.get(0));
+  let legendWidth = Math.floor(legendElem.outerWidth());
+  let legendHeight = legendElem.attr('height');
 
   if (legendWidth) {
     let legendOpacityScale;
@@ -237,9 +237,9 @@ function drawSimpleOpacityLegend(elem, options) {
         .range([0, 1]);
     }
 
-    const rangeStep = 10;
-    const valuesRange = d3.range(0, legendWidth, rangeStep);
-    const legendRects = legend.selectAll('.heatmap-opacity-legend-rect').data(valuesRange);
+    let rangeStep = 10;
+    let valuesRange = d3.range(0, legendWidth, rangeStep);
+    var legendRects = legend.selectAll('.heatmap-opacity-legend-rect').data(valuesRange);
 
     legendRects
       .enter()
@@ -255,12 +255,12 @@ function drawSimpleOpacityLegend(elem, options) {
 }
 
 function clearLegend(elem) {
-  const legendElem = $(elem).find('svg');
+  let legendElem = $(elem).find('svg');
   legendElem.empty();
 }
 
 function getSvgElemX(elem) {
-  const svgElem = elem.get(0);
+  let svgElem = elem.get(0);
   if (svgElem && svgElem.x && svgElem.x.baseVal) {
     return svgElem.x.baseVal.value;
   } else {
@@ -269,7 +269,7 @@ function getSvgElemX(elem) {
 }
 
 function getSvgElemHeight(elem) {
-  const svgElem = elem.get(0);
+  let svgElem = elem.get(0);
   if (svgElem && svgElem.height && svgElem.height.baseVal) {
     return svgElem.height.baseVal.value;
   } else {
@@ -278,13 +278,13 @@ function getSvgElemHeight(elem) {
 }
 
 function buildLegendTicks(rangeFrom, rangeTo, maxValue, minValue) {
-  const range = rangeTo - rangeFrom;
-  const tickStepSize = tickStep(rangeFrom, rangeTo, 3);
-  const ticksNum = Math.round(range / tickStepSize);
+  let range = rangeTo - rangeFrom;
+  let tickStepSize = tickStep(rangeFrom, rangeTo, 3);
+  let ticksNum = Math.round(range / tickStepSize);
   let ticks = [];
 
   for (let i = 0; i < ticksNum; i++) {
-    const current = tickStepSize * i;
+    let current = tickStepSize * i;
     // Add user-defined min and max if it had been set
     if (isValueCloseTo(minValue, current, tickStepSize)) {
       ticks.push(minValue);
@@ -309,6 +309,6 @@ function buildLegendTicks(rangeFrom, rangeTo, maxValue, minValue) {
 }
 
 function isValueCloseTo(val, valueTo, step) {
-  const diff = Math.abs(val - valueTo);
+  let diff = Math.abs(val - valueTo);
   return diff < step * 0.3;
 }

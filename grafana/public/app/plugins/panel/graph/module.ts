@@ -13,7 +13,6 @@ import { axesEditorComponent } from './axes_editor';
 class GraphCtrl extends MetricsPanelCtrl {
   static template = template;
 
-  renderError: boolean;
   hiddenSeries: any = {};
   seriesList: any = [];
   dataList: any = [];
@@ -196,7 +195,7 @@ class GraphCtrl extends MetricsPanelCtrl {
         tip: 'No datapoints returned from data query',
       };
     } else {
-      for (const series of this.seriesList) {
+      for (let series of this.seriesList) {
         if (series.isOutsideRange) {
           this.dataWarning = {
             title: 'Data points outside time range',
@@ -226,7 +225,7 @@ class GraphCtrl extends MetricsPanelCtrl {
       return;
     }
 
-    for (const series of this.seriesList) {
+    for (let series of this.seriesList) {
       series.applySeriesOverrides(this.panel.seriesOverrides);
 
       if (series.unit) {
@@ -255,14 +254,14 @@ class GraphCtrl extends MetricsPanelCtrl {
   }
 
   toggleSeriesExclusiveMode(serie) {
-    const hidden = this.hiddenSeries;
+    var hidden = this.hiddenSeries;
 
     if (hidden[serie.alias]) {
       delete hidden[serie.alias];
     }
 
     // check if every other series is hidden
-    const alreadyExclusive = _.every(this.seriesList, value => {
+    var alreadyExclusive = _.every(this.seriesList, value => {
       if (value.alias === serie.alias) {
         return true;
       }
@@ -288,7 +287,7 @@ class GraphCtrl extends MetricsPanelCtrl {
   }
 
   toggleAxis(info) {
-    let override = _.find(this.panel.seriesOverrides, { alias: info.alias });
+    var override = _.find(this.panel.seriesOverrides, { alias: info.alias });
     if (!override) {
       override = { alias: info.alias };
       this.panel.seriesOverrides.push(override);
@@ -312,13 +311,13 @@ class GraphCtrl extends MetricsPanelCtrl {
   }
 
   legendValuesOptionChanged() {
-    const legend = this.panel.legend;
+    var legend = this.panel.legend;
     legend.values = legend.min || legend.max || legend.avg || legend.current || legend.total;
     this.render();
   }
 
   exportCsv() {
-    const scope = this.$scope.$new(true);
+    var scope = this.$scope.$new(true);
     scope.seriesList = this.seriesList;
     this.publishAppEvent('show-modal', {
       templateHtml: '<export-data-modal data="seriesList"></export-data-modal>',

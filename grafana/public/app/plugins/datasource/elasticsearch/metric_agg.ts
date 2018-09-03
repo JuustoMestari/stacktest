@@ -19,7 +19,7 @@ export function elasticMetricAgg() {
 
 export class ElasticMetricAggCtrl {
   constructor($scope, uiSegmentSrv, $q, $rootScope) {
-    const metricAggs = $scope.target.metrics;
+    var metricAggs = $scope.target.metrics;
     $scope.metricAggTypes = queryDef.getMetricAggTypes($scope.esVersion);
     $scope.extendedStats = queryDef.extendedStats;
     $scope.pipelineAggOptions = [];
@@ -55,7 +55,7 @@ export class ElasticMetricAggCtrl {
         $scope.agg.pipelineAgg = $scope.agg.pipelineAgg || 'select metric';
         $scope.agg.field = $scope.agg.pipelineAgg;
 
-        const pipelineOptions = queryDef.getPipelineOptions($scope.agg);
+        var pipelineOptions = queryDef.getPipelineOptions($scope.agg);
         if (pipelineOptions.length > 0) {
           _.each(pipelineOptions, function(opt) {
             $scope.agg.settings[opt.text] = $scope.agg.settings[opt.text] || opt.default;
@@ -67,8 +67,8 @@ export class ElasticMetricAggCtrl {
       }
       switch ($scope.agg.type) {
         case 'cardinality': {
-          const precisionThreshold = $scope.agg.settings.precision_threshold || '';
-          $scope.settingsLinkText = 'Precision threshold: ' + precisionThreshold;
+          var precision_threshold = $scope.agg.settings.precision_threshold || '';
+          $scope.settingsLinkText = 'Precision threshold: ' + precision_threshold;
           break;
         }
         case 'percentiles': {
@@ -82,11 +82,11 @@ export class ElasticMetricAggCtrl {
             $scope.agg.meta.std_deviation_bounds_upper = true;
           }
 
-          const stats = _.reduce(
+          var stats = _.reduce(
             $scope.agg.meta,
             function(memo, val, key) {
               if (val) {
-                const def = _.find($scope.extendedStats, { value: key });
+                var def = _.find($scope.extendedStats, { value: key });
                 memo.push(def.text);
               }
               return memo;
@@ -115,7 +115,7 @@ export class ElasticMetricAggCtrl {
       if ($scope.aggDef.supportsInlineScript) {
         // I know this stores the inline script twice
         // but having it like this simplifes the query_builder
-        const inlineScript = $scope.agg.inlineScript;
+        var inlineScript = $scope.agg.inlineScript;
         if (inlineScript) {
           $scope.agg.settings.script = { inline: inlineScript };
         } else {
@@ -138,13 +138,13 @@ export class ElasticMetricAggCtrl {
     };
 
     $scope.updateMovingAvgModelSettings = function() {
-      const modelSettingsKeys = [];
-      const modelSettings = queryDef.getMovingAvgSettings($scope.agg.settings.model, false);
-      for (let i = 0; i < modelSettings.length; i++) {
+      var modelSettingsKeys = [];
+      var modelSettings = queryDef.getMovingAvgSettings($scope.agg.settings.model, false);
+      for (var i = 0; i < modelSettings.length; i++) {
         modelSettingsKeys.push(modelSettings[i].value);
       }
 
-      for (const key in $scope.agg.settings.settings) {
+      for (var key in $scope.agg.settings.settings) {
         if ($scope.agg.settings.settings[key] === null || modelSettingsKeys.indexOf(key) === -1) {
           delete $scope.agg.settings.settings[key];
         }
@@ -172,9 +172,9 @@ export class ElasticMetricAggCtrl {
     };
 
     $scope.addMetricAgg = function() {
-      const addIndex = metricAggs.length;
+      var addIndex = metricAggs.length;
 
-      const id = _.reduce(
+      var id = _.reduce(
         $scope.target.bucketAggs.concat($scope.target.metrics),
         function(max, val) {
           return parseInt(val.id) > max ? parseInt(val.id) : max;
@@ -203,6 +203,6 @@ export class ElasticMetricAggCtrl {
   }
 }
 
-const module = angular.module('grafana.directives');
+var module = angular.module('grafana.directives');
 module.directive('elasticMetricAgg', elasticMetricAgg);
 module.controller('ElasticMetricAggCtrl', ElasticMetricAggCtrl);

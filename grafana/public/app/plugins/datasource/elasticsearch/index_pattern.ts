@@ -24,15 +24,15 @@ export class IndexPattern {
       return this.pattern;
     }
 
-    const intervalInfo = intervalMap[this.interval];
-    const start = moment(from)
+    var intervalInfo = intervalMap[this.interval];
+    var start = moment(from)
       .utc()
       .startOf(intervalInfo.startOf);
-    const endEpoch = moment(to)
+    var endEpoch = moment(to)
       .utc()
       .startOf(intervalInfo.startOf)
       .valueOf();
-    const indexList = [];
+    var indexList = [];
 
     while (start.valueOf() <= endEpoch) {
       indexList.push(start.format(this.pattern));

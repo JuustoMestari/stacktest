@@ -2,11 +2,11 @@ import * as d3 from 'd3';
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
 
 export function getColorScale(colorScheme: any, lightTheme: boolean, maxValue: number, minValue = 0): (d: any) => any {
-  const colorInterpolator = d3ScaleChromatic[colorScheme.value];
-  const colorScaleInverted = colorScheme.invert === 'always' || colorScheme.invert === (lightTheme ? 'light' : 'dark');
+  let colorInterpolator = d3ScaleChromatic[colorScheme.value];
+  let colorScaleInverted = colorScheme.invert === 'always' || (colorScheme.invert === 'dark' && !lightTheme);
 
-  const start = colorScaleInverted ? maxValue : minValue;
-  const end = colorScaleInverted ? minValue : maxValue;
+  let start = colorScaleInverted ? maxValue : minValue;
+  let end = colorScaleInverted ? minValue : maxValue;
 
   return d3.scaleSequential(colorInterpolator).domain([start, end]);
 }

@@ -117,7 +117,7 @@ export const PermissionsStore = types
       }),
 
       addStoreItem: flow(function* addStoreItem() {
-        const item = {
+        let item = {
           type: self.newItem.type,
           permission: self.newItem.permission,
           dashboardId: self.dashboardId,
@@ -155,7 +155,7 @@ export const PermissionsStore = types
         try {
           yield updateItems(self, updatedItems);
           self.items.push(newItem);
-          const sortedItems = self.items.sort((a, b) => b.sortRank - a.sortRank || a.name.localeCompare(b.name));
+          let sortedItems = self.items.sort((a, b) => b.sortRank - a.sortRank || a.name.localeCompare(b.name));
           self.items = sortedItems;
           resetNewTypeInternal();
         } catch {}
@@ -197,7 +197,7 @@ export const PermissionsStore = types
 const updateItems = (self, items) => {
   const backendSrv = getEnv(self).backendSrv;
   const updated = [];
-  for (const item of items) {
+  for (let item of items) {
     if (item.inherited) {
       continue;
     }
