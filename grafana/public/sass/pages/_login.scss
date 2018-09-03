@@ -10,7 +10,7 @@ $login-border: #8daac5;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url(../img/customerA.jpg);
+  background-image: url(../img/bg_customerA.jpg);
   background-size: cover;
   color: #d8d9da;
   & a {
@@ -118,10 +118,11 @@ select:-webkit-autofill:focus {
 
   .logo-icon {
     //width: 70px;
+    //http://www.audenaerde.org/csstricks.html#imagereplacecss
     margin-bottom: 15px;
     padding: 200px 200px 0px 0px; 
     background: url('../img/logo_customerA.png'); 
-    background-size:auto; 
+    background-size: 200px 200px;
     width:0px; 
     height: 0px;
   }
