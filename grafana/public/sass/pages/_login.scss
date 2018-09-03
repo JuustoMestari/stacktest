@@ -10,14 +10,14 @@ $login-border: #8daac5;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url(../img/heatmap_bg_test.svg);
+  background-image: url(../img/customerA.jpg);
   background-size: cover;
   color: #d8d9da;
   & a {
     color: #d8d9da !important;
   }
   & .btn-primary {
-    @include buttonBackground(#ff6600, #bc3e06);
+    @include buttonBackground(red, blue);
   }
 }
 
