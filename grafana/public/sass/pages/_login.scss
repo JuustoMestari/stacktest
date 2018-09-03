@@ -17,7 +17,7 @@ $login-border: #8daac5;
     color: #d8d9da !important;
   }
   & .btn-primary {
-    @include buttonBackground(blue, blue);
+    @include buttonBackground(#ff6600, #bc3e06);
   }
 }
 
