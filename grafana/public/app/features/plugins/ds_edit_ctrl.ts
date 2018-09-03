@@ -4,18 +4,19 @@ import config from 'app/core/config';
 import { coreModule, appEvents } from 'app/core/core';
 import { store } from 'app/stores/store';
 
-var datasourceTypes = [];
+let datasourceTypes = [];
 
-var defaults = {
+const defaults = {
   name: '',
   type: 'graphite',
   url: '',
   access: 'proxy',
   jsonData: {},
   secureJsonFields: {},
+  secureJsonData: {},
 };
 
-var datasourceCreated = false;
+let datasourceCreated = false;
 
 export class DataSourceEditCtrl {
   isNew: boolean;

@@ -17,7 +17,7 @@ $login-border: #8daac5;
     color: #d8d9da !important;
   }
   & .btn-primary {
-    @include buttonBackground(red, blue);
+    @include buttonBackground(#ff6600, #bc3e06);
   }
 }
 
@@ -76,6 +76,15 @@ select:-webkit-autofill:focus {
       margin-left: 1rem;
     }
   }
+  & .btn-inverse {
+    color: #e3e3e3;
+    text-shadow: 0px 1px 0 rgba(0, 0, 0, 0.1);
+    background-color: #2a2a2c;
+    background-image: linear-gradient(to bottom, #262628, #303032);
+    background-repeat: repeat-x;
+    border-color: #262628;
+    box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.1), 1px 1px 0 0 rgba(0, 0, 0, 0.3);
+  }
 }
 
 .login-button-forgot-password {
@@ -108,8 +117,13 @@ select:-webkit-autofill:focus {
   padding-top: 2rem;
 
   .logo-icon {
-    width: 70px;
+    //width: 70px;
     margin-bottom: 15px;
+    padding: 200px 200px 0px 0px; 
+    background: url('../img/logo_customerA.png'); 
+    background-size:auto; 
+    width:0px; 
+    height: 0px;
   }
 
   .icon-gf-grafana_wordmark {
@@ -117,6 +131,7 @@ select:-webkit-autofill:focus {
     position: relative;
     font-size: 2rem;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    display:none;
   }
 }
 
