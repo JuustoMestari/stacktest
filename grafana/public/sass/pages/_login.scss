@@ -10,7 +10,7 @@ $login-border: #8daac5;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url(../img/bg_customerA.jpg);
+  background-image: url(../img/customer_bg.jpg);
   background-size: cover;
   color: #d8d9da;
   & a {
@@ -111,10 +111,19 @@ select:-webkit-autofill:focus {
     //width: 70px;
     //http://www.audenaerde.org/csstricks.html#imagereplacecss
     margin-bottom: 15px;
-    padding: 200px 200px 0px 0px; 
-    background: url('../img/logo_customerA.png'); 
+    padding: 200px 200px 0px 0px;
+    background: url('../img/customer_logo.png');
     background-size: 200px 200px;
-    width:0px; 
+    width: 0px;
+    height: 0px;
+  }
+  .logo-ms {
+    //http://www.audenaerde.org/csstricks.html#imagereplacecss
+    margin-bottom: 15px;
+    padding: 200px 200px 0px 0px;
+    background: url('../img/millisecond_logo.png');
+    background-size: 200px 200px;
+    width: 0px;
     height: 0px;
   }
 
@@ -123,7 +132,7 @@ select:-webkit-autofill:focus {
     position: relative;
     font-size: 2rem;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    display:none;
+    display: none;
   }
 }
 
