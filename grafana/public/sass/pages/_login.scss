@@ -119,10 +119,10 @@ select:-webkit-autofill:focus {
   }
   .logo-ms {
     //http://www.audenaerde.org/csstricks.html#imagereplacecss
-    margin-bottom: 15px;
-    padding: 200px 200px 0px 0px;
+    padding: 200px 94px 0px 0px;
     background: url('../img/millisecond_logo.png');
-    background-size: 200px 200px;
+    background-size: 200px 94px;
+    background-repeat: no-repeat;
     width: 0px;
     height: 0px;
   }
